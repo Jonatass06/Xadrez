@@ -56,9 +56,7 @@ public class Tabuleiro {
     @Override
     public String toString() {
         String retorno ="";
-        int i=0;
         for(Posicao posicao : posicoes){
-            i++;
 
             if(posicao.getPeca() != null){
                 retorno += "["+posicao.getPeca().getIcone() + "]";
@@ -66,7 +64,8 @@ public class Tabuleiro {
                 retorno += "[ ]";
             }
 
-            if(i % 8 == 0){
+            if((posicoes.indexOf(posicao)+1) % 8 == 0){
+
                 retorno +="\n";
             }
         }
@@ -79,16 +78,14 @@ public class Tabuleiro {
         String corPadrao = "\u001B[0m";
 
         String retorno ="";
-        int i=0;
         for(Posicao posicao : posicoes){
-            i++;
 
             if(posicao.getPeca() == null){
                 if(possiveisMovimentos.contains(posicao)){
-                    if(i < 10){
-                        retorno += "[0"+i+"]";
+                    if(posicoes.indexOf(posicao) < 10){
+                        retorno += "[0"+posicoes.indexOf(posicao) +"]";
                     } else{
-                        retorno += "["+i+"]";
+                        retorno += "["+posicoes.indexOf(posicao) +"]";
                     }
                 }else{
                     retorno += "[  ]";
@@ -103,7 +100,8 @@ public class Tabuleiro {
                 }
             }
 
-            if(i % 8 == 0){
+            if((posicoes.indexOf(posicao)+1) % 8 == 0){
+
                 retorno +="\n";
             }
         }
@@ -112,9 +110,7 @@ public class Tabuleiro {
 
     public String mostrarPecasJogador(ArrayList<Peca> pecas) {
         String retorno ="";
-        int i=0;
         for(Posicao posicao : posicoes){
-            i++;
 
             if(posicao.getPeca() == null){
                 retorno += "[  ]";
@@ -130,7 +126,7 @@ public class Tabuleiro {
                     retorno += "[ "+ posicao.getPeca().getIcone() +  "]";
                 }
             }
-            if(i % 8 == 0){
+            if((posicoes.indexOf(posicao)+1) % 8 == 0){
                 retorno +="\n";
             }
         }

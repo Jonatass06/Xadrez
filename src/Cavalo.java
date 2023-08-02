@@ -1,9 +1,10 @@
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class Cavalo extends Peca {
 
-    public Cavalo(String cor, Posicao posicao){
-        super(cor, cor.equals("Branco")?'♞':'♘', posicao);
+    public Cavalo(String cor, Posicao posicao) {
+        super(cor, cor.equals("Branco") ? '♞' : '♘', posicao);
     }
 
     @Override
@@ -25,38 +26,40 @@ public class Cavalo extends Peca {
                     tabuleiro.getPosicoes().indexOf(posicao) == posicaoNoTabuleiro + 10 ||
                     tabuleiro.getPosicoes().indexOf(posicao) == posicaoNoTabuleiro + 16) {
                 //H
-                if (validaExtremidade(posicaoNoTabuleiro + 1) &&
-                        !(indice == posicaoNoTabuleiro + 17 ||
-                                indice == posicaoNoTabuleiro + 10 ||
-                                indice == posicaoNoTabuleiro - 6 ||
-                                indice == posicaoNoTabuleiro - 15
-                )) {
-                    verificaPeca(posicao, possiveisMovimentos);
+                if (validaExtremidade(posicaoNoTabuleiro + 1)
+                ) {
+                    if (!(indice == posicaoNoTabuleiro + 17 ||
+                            indice == posicaoNoTabuleiro + 10 ||
+                            indice == posicaoNoTabuleiro - 6 ||
+                            indice == posicaoNoTabuleiro - 15)) {
+                        verificaPeca(posicao, possiveisMovimentos);
+                    }
                 }
                 //A
-                else if (validaExtremidade(posicaoNoTabuleiro) &&
-                        !(indice == posicaoNoTabuleiro - 17 ||
-                                indice == posicaoNoTabuleiro - 10 ||
-                                indice == posicaoNoTabuleiro + 6 ||
-                                indice == posicaoNoTabuleiro + 15
-                )) {
-                    verificaPeca(posicao, possiveisMovimentos);
+                else if (validaExtremidade(posicaoNoTabuleiro)
+                ) {
+                    if (!(indice == posicaoNoTabuleiro - 17 ||
+                            indice == posicaoNoTabuleiro - 10 ||
+                            indice == posicaoNoTabuleiro + 6 ||
+                            indice == posicaoNoTabuleiro + 15)) {
+                        verificaPeca(posicao, possiveisMovimentos);
+                    }
                 }
                 //B
-                else if (validaExtremidade(posicaoNoTabuleiro - 1) &&
-                        !(indice == posicaoNoTabuleiro - 10 ||
-                                indice == posicaoNoTabuleiro + 6
-                        )) {
-                    verificaPeca(posicao, possiveisMovimentos);
+                else if (validaExtremidade(posicaoNoTabuleiro - 1)) {
+                    if (!(indice == posicaoNoTabuleiro - 10 ||
+                            indice == posicaoNoTabuleiro + 6)) {
+                        verificaPeca(posicao, possiveisMovimentos);
+                    }
                 }
                 //G
-                else if (validaExtremidade(posicaoNoTabuleiro + 2) &&
-                        !(indice == posicaoNoTabuleiro + 17 ||
-                                indice == posicaoNoTabuleiro - 15
-                )) {
-                    verificaPeca(posicao, possiveisMovimentos);
-                }
-                else {
+                else if (validaExtremidade(posicaoNoTabuleiro + 2)
+                ) {
+                    if (!(indice == posicaoNoTabuleiro + 17 ||
+                            indice == posicaoNoTabuleiro - 15)) {
+                        verificaPeca(posicao, possiveisMovimentos);
+                    }
+                } else {
                     verificaPeca(posicao, possiveisMovimentos);
                 }
             }
@@ -66,6 +69,6 @@ public class Cavalo extends Peca {
 
     @Override
     public String toString() {
-        return super.toString()+" Cavalo";
+        return super.toString() + " Cavalo";
     }
 }

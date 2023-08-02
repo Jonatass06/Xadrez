@@ -92,6 +92,7 @@ public class Executavel {
         System.out.println(tabuleiro);
 
         int opcao;
+        ArrayList<Posicao> possiveisPosicoes;
 
         do {
             System.out.println(tabuleiro.mostrarPecasJogador(jogadorJogando.getPecas()));
@@ -101,30 +102,40 @@ public class Executavel {
 
             if (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0) {
                 System.out.println("Valor invalido!");
+            } else{
+                possiveisPosicoes = jogadorJogando.getPecas().get(opcao).possiveisMovimentos(tabuleiro);
+                if(possiveisPosicoes.size() == 0){
+                    System.out.println("Essa peça não pode fazer nenhum movimento!");
+                    opcao = -1;
+                }else{
+                    System.out.println(tabuleiro.mostrarPossiveisMovimentos(possiveisPosicoes));
+                    if(!escolherJogada(tabuleiro, possiveisPosicoes, jogadorJogando,
+                            jogadorJogando.getPecas().get(opcao), adversario)){
+                        opcao = -1;
+                    }
+                }
             }
         } while (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0);
-
-        ArrayList<Posicao> possiveisPosicoes = jogadorJogando.getPecas().get(opcao).possiveisMovimentos(tabuleiro);
-        System.out.println(tabuleiro.mostrarPossiveisMovimentos(possiveisPosicoes));
-
-        escolherJogada(tabuleiro, possiveisPosicoes, jogadorJogando, jogadorJogando.getPecas().get(opcao), adversario);
         return validarVitoria(adversario);
     }
 
-    public static void escolherJogada(Tabuleiro tabuleiro, ArrayList<Posicao> posicoes,
+    public static boolean escolherJogada(Tabuleiro tabuleiro, ArrayList<Posicao> posicoes,
                                       Jogador jogadorJogando, Peca peca, Jogador adversario){
         int opcao = 0;
 
         do {
-            System.out.println("Para onde você deseja ir? ");
+            System.out.println("Para onde você deseja ir? (-1 Cancel)");
             opcao = sc.nextInt();
-            opcao --;
+            if(opcao == -1){
+                return false;
+            }
             if(posicoes.contains(tabuleiro.getPosicoes().get(opcao))){
                 jogadorJogando.moverPeca(peca, tabuleiro.getPosicoes().get(opcao), tabuleiro, adversario);
             } else{
                 System.out.println("Jogada Inválida!");
             }
         }while(!posicoes.contains(tabuleiro.getPosicoes().get(opcao)));
+        return true;
     }
 
     private static boolean menuInicial() {

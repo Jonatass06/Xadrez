@@ -58,6 +58,7 @@ public abstract class Peca {
 
 
     public boolean validaExtremidade(int posicaoNoTabuleiro){
+        boolean a =posicaoNoTabuleiro % 8 == 0;
         return posicaoNoTabuleiro % 8 == 0;
     }
 
