@@ -85,20 +85,51 @@ public class Tabuleiro {
 
             if(posicao.getPeca() == null){
                 if(possiveisMovimentos.contains(posicao)){
-                    retorno += "["+i+"]";
+                    if(i < 10){
+                        retorno += "[0"+i+"]";
+                    } else{
+                        retorno += "["+i+"]";
+                    }
                 }else{
-                    retorno += "[ ]";
+                    retorno += "[  ]";
                 }
             } else{
                 if(possiveisMovimentos.contains(posicao)){
-                    retorno += "["+ corVermelha + posicao.getPeca().getIcone() + corPadrao + "]";
+                    retorno += "[ "+ corVermelha + posicao.getPeca().getIcone() + corPadrao + "]";
 
                 }else{
-                    retorno += "["+ posicao.getPeca().getIcone() +  "]";
+                    retorno += "[ "+ posicao.getPeca().getIcone() +  "]";
 
                 }
             }
 
+            if(i % 8 == 0){
+                retorno +="\n";
+            }
+        }
+        return retorno;
+    }
+
+    public String mostrarPecasJogador(ArrayList<Peca> pecas) {
+        String retorno ="";
+        int i=0;
+        for(Posicao posicao : posicoes){
+            i++;
+
+            if(posicao.getPeca() == null){
+                retorno += "[  ]";
+            } else{
+                if(pecas.contains(posicao.getPeca())){
+                    if(pecas.indexOf(posicao.getPeca()) < 10){
+                        retorno += "[0"+pecas.indexOf(posicao.getPeca())+"]";
+                    } else{
+                        retorno += "["+pecas.indexOf(posicao.getPeca())+"]";
+
+                    }
+                }else{
+                    retorno += "[ "+ posicao.getPeca().getIcone() +  "]";
+                }
+            }
             if(i % 8 == 0){
                 retorno +="\n";
             }

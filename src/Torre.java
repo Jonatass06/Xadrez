@@ -5,7 +5,7 @@ public class Torre extends Peca {
     private boolean primeiroMovimento;
 
     public Torre(String cor, Posicao posicao){
-        super(cor, cor=="Branco"?'♜':'♖', posicao);
+        super(cor, cor.equals("Branco")?'♜':'♖', posicao);
     }
 
     @Override

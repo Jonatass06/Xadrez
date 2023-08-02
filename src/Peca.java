@@ -61,6 +61,8 @@ public abstract class Peca {
         return posicaoNoTabuleiro % 8 == 0;
     }
 
+
+
     @Override
     public String toString() {
         return "Peca{" +

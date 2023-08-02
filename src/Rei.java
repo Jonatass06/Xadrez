@@ -5,7 +5,7 @@ public class Rei extends Peca {
     private boolean primeiroMovimento;
 
     public Rei(String cor, Posicao posicao){
-        super(cor, cor=="Branco"?'♚':'♔', posicao);
+        super(cor, cor.equals("Branco")?'♚':'♔', posicao);
 
     }
 

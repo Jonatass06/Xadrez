@@ -27,6 +27,26 @@ public class Jogador {
         return null;
     }
 
+    public String mostrarPecas(){
+        String retorno = "";
+        for(Peca peca : pecas){
+            if(pecas.indexOf(peca) < 10){
+                retorno += "[0"+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
+                if((pecas.indexOf(peca)+1)%3 == 0){
+                    retorno += "\n";
+                }
+            } else{
+                retorno += "["+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
+                if((pecas.indexOf(peca)+1)%3 == 0){
+                    retorno += "\n";
+                }
+            }
+
+        }
+        return retorno;
+    }
+
+
     public boolean moverPeca(Peca peca, Posicao posicao,
                              Tabuleiro tabuleiro, Jogador adversario) {
         Peca pecaAdversaria = posicao.getPeca();
@@ -35,7 +55,9 @@ public class Jogador {
         if (pecaAdversaria != null && valida) {
             adversario.pecas.remove(pecaAdversaria);
         }
-
+        if(peca instanceof Peao){
+            ((Peao) peca).setPrimeiraJogada();
+        }
         return valida;
     }
 

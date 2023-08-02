@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Bispo extends Peca {
 
     public Bispo(String cor, Posicao posicao){
-        super(cor, cor=="Branco"?'♝':'♗', posicao);
+        super(cor, cor.equals("Branco")?'♝':'♗', posicao);
     }
 
     @Override
