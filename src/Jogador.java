@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class Jogador {
 
     private String nome, cor, senha;
-    private double pontuacao;
     private ArrayList<Peca> pecas;
     private static ArrayList<Jogador> jogadores = new ArrayList<>();
 
@@ -46,6 +45,9 @@ public class Jogador {
         return retorno;
     }
 
+    public String getNome() {
+        return nome;
+    }
 
     public boolean moverPeca(Peca peca, Posicao posicao,
                              Tabuleiro tabuleiro, Jogador adversario) {

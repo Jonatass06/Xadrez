@@ -17,28 +17,6 @@ public class Executavel {
                 menuJogador();
             }
         }
-
-//        Jogador jogador1 = new Jogador("Jonas", "123");
-//        Jogador jogador2 = new Jogador("Davi", "321");
-//        Tabuleiro tabuleiro = new Tabuleiro();
-//        System.out.println(tabuleiro);
-//
-//        jogador1.setCor("Branco", tabuleiro);
-//        jogador2.setCor("Preto", tabuleiro);
-//
-//        System.out.println(jogador2.getPecas());
-//        int escolherPeca = sc.nextInt();
-//        Peca peca = jogador2.getPecas().get(escolherPeca);
-//        System.out.println(peca);
-//
-//        ArrayList<Posicao> posicoes = peca.possiveisMovimentos(tabuleiro);
-//        System.out.println(tabuleiro.mostrarPossiveisMovimentos(posicoes));
-//        int escolhaPosicao = sc.nextInt();
-//        Posicao posicao = posicoes.get(escolhaPosicao);
-//
-//        jogador1.moverPeca(peca, posicao, tabuleiro, jogador2);
-//        System.out.println(validarVitoria(jogador2));
-
     }
 
     private static void menuJogador() {
@@ -219,6 +197,7 @@ public class Executavel {
                 return false;
             }
         }
+        System.out.println("Fim de Jogo, " + adversario.getNome() + "Você infelizmente perdeu!");
         return true;
     }
 }
@@ -226,5 +205,4 @@ public class Executavel {
 //roque
 //en passant
 //promoção
-
 //partida
