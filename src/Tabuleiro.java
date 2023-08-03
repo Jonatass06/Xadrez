@@ -44,6 +44,13 @@ public class Tabuleiro {
             if(i == 60 ){
                 posicoes.get(i).setPeca(new Rei("Branco", posicoes.get(i)));
             }
+            //testes tira depois
+            if(i == 30){
+                posicoes.get(i).setPeca(new Rainha("Branco", posicoes.get(i)));
+            }
+            if(i == 20){
+                posicoes.get(i).setPeca(new Rainha("Branco", posicoes.get(i)));
+            }
         }
     }
 
@@ -92,7 +99,7 @@ public class Tabuleiro {
                 }
             } else{
                 if(possiveisMovimentos.contains(posicao)){
-                    retorno += "[ "+ corVermelha + posicao.getPeca().getIcone() + corPadrao + "]";
+                    retorno += "["+ corVermelha + posicoes.indexOf(posicao) + corPadrao + "]";
 
                 }else{
                     retorno += "[ "+ posicao.getPeca().getIcone() +  "]";
@@ -101,11 +108,17 @@ public class Tabuleiro {
             }
 
             if((posicoes.indexOf(posicao)+1) % 8 == 0){
-
                 retorno +="\n";
             }
         }
-        return retorno;
+
+        for(Posicao posicao:  possiveisMovimentos){
+            if(posicao.getPeca()!= null){
+                retorno += corVermelha + "["+posicoes.indexOf(posicao)+"] - " + posicao.getPeca().getIcone() + " | ";
+            }
+        }
+
+        return retorno + corPadrao;
     }
 
     public String mostrarPecasJogador(ArrayList<Peca> pecas) {
@@ -131,5 +144,26 @@ public class Tabuleiro {
             }
         }
         return retorno;
+    }
+
+    public boolean verificaCheque(Jogador jogador){
+
+        ArrayList<Posicao>  possiveisMovimentos = new ArrayList<>();
+        for(Posicao posicao : this.posicoes){
+            if(posicao.getPeca() != null){
+                possiveisMovimentos.addAll(posicao.getPeca().possiveisMovimentos(this));
+            }
+        }
+
+        for(Posicao posicao : possiveisMovimentos){
+            if(posicao.getPeca() instanceof Rei &&
+                !jogador.getPecas().contains(posicao.getPeca())
+            ){
+                System.out.println(true);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

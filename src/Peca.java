@@ -16,9 +16,6 @@ public abstract class Peca {
     }
 
     public boolean mover(Posicao posicao, Tabuleiro tabuleiro) {
-        ArrayList<Posicao> possiveisPosicoes = possiveisMovimentos(tabuleiro);
-        for(Posicao posicaoF : possiveisPosicoes){
-            if (posicaoF == posicao){
                 //Atribuindo a peça para a nova posição no tabuleiro
                 posicao.setPeca(this);
                 //Removendo a peça da posição anterior
@@ -26,9 +23,10 @@ public abstract class Peca {
                 //Trocando a posicao atual da peca
                 this.posicao = posicao;
                 return true;
-            }
-        }
-        return false;
+    }
+
+    public void setPosicao(Posicao posicao) {
+        this.posicao = posicao;
     }
 
     public Posicao getPosicao() {

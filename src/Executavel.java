@@ -19,7 +19,7 @@ public class Executavel {
         }
     }
 
-    private static void menuJogador() {
+    public static void menuJogador() {
         int opcao;
         do {
             System.out.println("""
@@ -40,7 +40,7 @@ public class Executavel {
         } while (opcao != 2);
     }
 
-    private static void iniciarJogo() {
+    public static void iniciarJogo() {
 
         Jogador j2 = new Jogador("Wilson", "wilson");
         Tabuleiro tabuleiro = new Tabuleiro();
@@ -66,7 +66,7 @@ public class Executavel {
         }
     }
 
-    private static boolean joga(Jogador jogadorJogando, Tabuleiro tabuleiro, Jogador adversario) {
+    public static boolean joga(Jogador jogadorJogando, Tabuleiro tabuleiro, Jogador adversario) {
         System.out.println(tabuleiro);
 
         int opcao;
@@ -108,15 +108,52 @@ public class Executavel {
                 return false;
             }
             if(posicoes.contains(tabuleiro.getPosicoes().get(opcao))){
-                jogadorJogando.moverPeca(peca, tabuleiro.getPosicoes().get(opcao), tabuleiro, adversario);
+
+                return verificarJogada(jogadorJogando, peca, opcao, tabuleiro, adversario);
+
             } else{
                 System.out.println("Jogada Inválida!");
             }
         }while(!posicoes.contains(tabuleiro.getPosicoes().get(opcao)));
         return true;
+
     }
 
-    private static boolean menuInicial() {
+    public static boolean verificarJogada(Jogador jogadorJogando, Peca peca, int opcao,
+                                       Tabuleiro tabuleiro, Jogador adversario){
+
+        //Valores para a inversçao de jogada
+        int antigaPosicao = tabuleiro.getPosicoes().indexOf(peca.getPosicao());
+        Peca antigaPeca = null;
+        if(tabuleiro.getPosicoes().get(opcao).getPeca() != null){
+            antigaPeca = tabuleiro.getPosicoes().get(opcao).getPeca();
+        }
+
+        //Jogada
+        jogadorJogando.moverPeca(peca, tabuleiro.getPosicoes().get(opcao), tabuleiro, adversario);
+
+        //Inversao de Jogada
+        if(tabuleiro.verificaCheque(adversario)){
+            jogadorJogando.moverPeca(peca, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, adversario);
+            tabuleiro.getPosicoes().get(opcao).setPeca(antigaPeca);
+            adversario.addPecas(antigaPeca);
+            System.out.println("Você não pode deixar seu rei em risco!");
+            return false;
+        } else{
+            if(peca instanceof Peao){
+                if(peca.getCor().equals("Preto") && opcao > 55){
+                    promoverPeao(tabuleiro.getPosicoes().get(opcao),tabuleiro, jogadorJogando);
+                }
+                else if(peca.getCor().equals("Branco") && opcao < 8){
+                    promoverPeao(tabuleiro.getPosicoes().get(opcao),tabuleiro, jogadorJogando);
+                }
+            }
+            return true;
+        }
+    }
+
+
+    public static boolean menuInicial() {
         int opcao;
         do {
             System.out.println("""
@@ -143,7 +180,7 @@ public class Executavel {
         return false;
     }
 
-    private static void cadastrar() {
+    public static void cadastrar() {
         String nome, senha;
         boolean sair = false;
         while (!sair) {
@@ -160,7 +197,7 @@ public class Executavel {
         }
     }
 
-    private static void login() {
+    public static void login() {
         String nome, senha;
         boolean sair = false;
         while (!sair) {
@@ -191,7 +228,7 @@ public class Executavel {
         }
     }
 
-    private static boolean validarVitoria(Jogador adversario) {
+    public static boolean validarVitoria(Jogador adversario) {
         for (Peca peca : adversario.getPecas()) {
             if (peca instanceof Rei) {
                 return false;
@@ -200,9 +237,41 @@ public class Executavel {
         System.out.println("Fim de Jogo, " + adversario.getNome() + "Você infelizmente perdeu!");
         return true;
     }
+
+    public static void promoverPeao(Posicao posicao, Tabuleiro tabuleiro, Jogador jogador){
+        int opcao;
+        do {
+            System.out.println("""
+                    _____________________________
+                    | Você quer que o peão seja |
+                    | promovido para qual peça? |
+                    | [0] - Rainha              |
+                    | [1] - Torre               |
+                    | [2] - Bispo               |
+                    | [3] - Cavalo              |
+                    -----------------------------
+                    """);
+            opcao = sc.nextInt();
+            if(opcao < 0 || opcao > 3){
+                System.out.println("Valor Inválido!");
+            }
+        }
+        while (opcao < 0 || opcao > 3);
+
+
+        Peca peca;
+
+        switch (opcao){
+            case 0 -> peca = new Rainha(posicao.getPeca().getCor(), posicao);
+            case 1 -> peca = new Torre(posicao.getPeca().getCor(), posicao);
+            case 2 -> peca = new Bispo(posicao.getPeca().getCor(), posicao);
+            default -> peca = new Cavalo(posicao.getPeca().getCor(), posicao);
+        }
+        posicao.setPeca(peca);
+        jogador.getPecas().remove(posicao.getPeca());
+        jogador.getPecas().add(peca);
+    }
 }
-//ver cheque
+//ver cheque mate
 //roque
 //en passant
-//promoção
-//partida

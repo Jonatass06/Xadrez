@@ -2,11 +2,25 @@ import java.util.ArrayList;
 
 public class Peao extends Peca {
 
-    private boolean primeiroMovimento = true;
+    private boolean primeiroMovimento;
 
     public Peao(String cor, Posicao posicao){
         super(cor, cor.equals("Branco")?'♟':'♙', posicao);
+        this.primeiroMovimento = true;
     }
+
+    @Override
+    public boolean mover(Posicao posicao, Tabuleiro tabuleiro) {
+                //Atribuindo a peça para a nova posição no tabuleiro
+                posicao.setPeca(this);
+                //Removendo a peça da posição anterior
+                this.getPosicao().setPeca(null);
+                //Trocando a posicao atual da peca
+                this.setPosicao(posicao);
+                this.primeiroMovimento = false;
+                return true;
+    }
+
     @Override
     public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro) {
 

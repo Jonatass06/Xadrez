@@ -4,8 +4,8 @@ public class Rei extends Peca {
 
     private boolean primeiroMovimento;
 
-    public Rei(String cor, Posicao posicao){
-        super(cor, cor.equals("Branco")?'♚':'♔', posicao);
+    public Rei(String cor, Posicao posicao) {
+        super(cor, cor.equals("Branco") ? '♚' : '♔', posicao);
 
     }
 
@@ -22,20 +22,23 @@ public class Rei extends Peca {
                     indice == posicaoNoTabuleiro - 8 ||
                     indice == posicaoNoTabuleiro - 7 ||
                     indice == posicaoNoTabuleiro - 1 ||
-                    indice == posicaoNoTabuleiro + 7 ||
+                    indice == posicaoNoTabuleiro + 1 ||
                     indice == posicaoNoTabuleiro + 7 ||
                     indice == posicaoNoTabuleiro + 8 ||
                     indice == posicaoNoTabuleiro + 9) {
-                if (validaExtremidade(posicaoNoTabuleiro + 1) &&
-                        !(indice == posicaoNoTabuleiro + 1 ||
-                                indice == posicaoNoTabuleiro + 9 ||
-                                indice == posicaoNoTabuleiro - 7)) {
-                    verificaPeca(posicao, possiveisMovimentos);
-                } else if (validaExtremidade(posicaoNoTabuleiro) &&
-                        !(indice == posicaoNoTabuleiro - 1 ||
-                                indice == posicaoNoTabuleiro - 9 ||
-                                indice == posicaoNoTabuleiro + 7)) {
-                    verificaPeca(posicao, possiveisMovimentos);
+                if (validaExtremidade(posicaoNoTabuleiro + 1)) {
+                    if (!(indice == posicaoNoTabuleiro + 1 ||
+                            indice == posicaoNoTabuleiro + 9 ||
+                            indice == posicaoNoTabuleiro - 7)) {
+                        verificaPeca(posicao, possiveisMovimentos);
+
+                    }
+                } else if (validaExtremidade(posicaoNoTabuleiro)) {
+                    if (!(indice == posicaoNoTabuleiro - 1 ||
+                            indice == posicaoNoTabuleiro - 9 ||
+                            indice == posicaoNoTabuleiro + 7)) {
+                        verificaPeca(posicao, possiveisMovimentos);
+                    }
                 } else {
                     verificaPeca(posicao, possiveisMovimentos);
                 }
@@ -43,6 +46,7 @@ public class Rei extends Peca {
         }
         return possiveisMovimentos;
     }
+
 
     @Override
     public String toString() {

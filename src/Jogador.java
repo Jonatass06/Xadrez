@@ -57,12 +57,12 @@ public class Jogador {
         if (pecaAdversaria != null && valida) {
             adversario.pecas.remove(pecaAdversaria);
         }
-        if(peca instanceof Peao){
-            ((Peao) peca).setPrimeiraJogada();
-        }
         return valida;
     }
 
+    public void addPecas(Peca peca) {
+        this.pecas.add(peca);
+    }
 
     public ArrayList<Peca> getPecas() {
         return pecas;
