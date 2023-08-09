@@ -6,10 +6,11 @@ public class Torre extends Peca {
 
     public Torre(String cor, Posicao posicao){
         super(cor, cor.equals("Branco")?'♜':'♖', posicao);
+        primeiroMovimento = true;
     }
 
     @Override
-    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro) {
+    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario) {
 
         ArrayList<Posicao> possiveisMovimentos = new ArrayList<>();
 
@@ -19,14 +20,14 @@ public class Torre extends Peca {
              i < tabuleiro.getPosicoes().size();
              i += 8) {
 
-            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos)) {
+            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos, jogador, tabuleiro,adversario )) {
                 break;
             }
         }
         for (int i = posicaoNoTabuleiro - 8;
              i >= 0;
              i -= 8) {
-            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos)) {
+            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos, jogador, tabuleiro,adversario)) {
                 break;
             }
         }
@@ -34,7 +35,7 @@ public class Torre extends Peca {
                 64 : posicaoNoTabuleiro + 1);
              i < tabuleiro.getPosicoes().size();
              i++) {
-            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos) ||
+            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos, jogador, tabuleiro, adversario) ||
                     validaExtremidade(i + 1)) {
                 break;
             }
@@ -43,7 +44,7 @@ public class Torre extends Peca {
                 -1 : posicaoNoTabuleiro - 1);
              i >= 0;
              i--) {
-            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos) ||
+            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos, jogador, tabuleiro, adversario ) ||
                     validaExtremidade(i)) {
                 break;
             }
@@ -52,8 +53,24 @@ public class Torre extends Peca {
 
     }
 
-    private void vertical(){
+    public void setPrimeiroMovimento(boolean primeiroMovimento) {
+        this.primeiroMovimento = primeiroMovimento;
+    }
 
+    public boolean getPrimeiroMovimento() {
+        return primeiroMovimento;
+    }
+
+    @Override
+    public boolean mover(Posicao posicao, Tabuleiro tabuleiro) {
+        //Atribuindo a peça para a nova posição no tabuleiro
+        posicao.setPeca(this);
+        //Removendo a peça da posição anterior
+        this.getPosicao().setPeca(null);
+        //Trocando a posicao atual da peca
+        this.setPosicao(posicao);
+        this.primeiroMovimento = false;
+        return true;
     }
 
     @Override

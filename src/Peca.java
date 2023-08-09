@@ -37,9 +37,13 @@ public abstract class Peca {
         return cor;
     }
 
-    public abstract ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro);
+    public abstract ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario);
 
-    public boolean verificaPeca (Posicao posicao, ArrayList<Posicao> possiveisMovimentos){
+    public boolean verificaPeca (Posicao posicao, ArrayList<Posicao> possiveisMovimentos, Jogador jogador,
+                                 Tabuleiro tabuleiro,  Jogador adversario){
+        if(adversario != null && !simularJogada(tabuleiro, jogador, adversario, posicao)){
+            return false;
+        }
         if (posicao.getPeca() == null) {
             possiveisMovimentos.add(posicao);
             return false;
@@ -47,20 +51,73 @@ public abstract class Peca {
             possiveisMovimentos.add(posicao);
         }
         return true;
+
     }
 
-//    public abstract char icone() {
-//        return 'a';
-//    }
-
-
-
     public boolean validaExtremidade(int posicaoNoTabuleiro){
-        boolean a =posicaoNoTabuleiro % 8 == 0;
         return posicaoNoTabuleiro % 8 == 0;
     }
 
+    private boolean verificaCheque(Jogador jogador, Tabuleiro tabuleiro, Jogador adversario){
 
+        for(Peca peca : adversario.getPecas()){
+            if(peca != null){
+                for(Posicao posicaoPossivel :  peca.possiveisMovimentos(tabuleiro, jogador, null)){
+                    if(posicaoPossivel.getPeca() != null &&
+                            posicaoPossivel.getPeca() instanceof Rei &&
+                            jogador.getPecas().contains(posicaoPossivel.getPeca())){
+                        return true;
+
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean simularJogada(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario, Posicao posicao ){
+        //Valores para a inversçao de jogada
+        int antigaPosicao = tabuleiro.getPosicoes().indexOf(this.getPosicao());
+        Peca antigaPeca = null;
+        if(posicao.getPeca() != null){
+            antigaPeca = posicao.getPeca();
+        }
+
+
+        if(antigaPeca == null || (antigaPeca != null && adversario.getPecas().contains(antigaPeca))){
+            //Jogada
+            jogador.moverPeca(this, posicao, tabuleiro, adversario);
+
+            //Inversao de Jogada
+            if(verificaCheque(jogador, tabuleiro, adversario)){
+                jogador.moverPeca(this, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, adversario);
+                if(this instanceof Peao){
+                    ((Peao) this).setPrimeiroMovimento(true);
+                }
+                if(antigaPeca != null){
+                    posicao.setPeca(antigaPeca);
+                    adversario.addPecas(antigaPeca);
+                }
+                return false;
+            }
+            jogador.moverPeca(this, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, adversario);
+            if(this instanceof Peao){
+                ((Peao) this).setPrimeiroMovimento(true);
+            }
+            if(this instanceof Rei){
+                ((Rei) this).setPrimeiroMovimento(true);
+            }
+            if(this instanceof Torre){
+                ((Torre) this).setPrimeiroMovimento(true);
+            }
+            if(antigaPeca != null){
+                posicao.setPeca(antigaPeca);
+                adversario.addPecas(antigaPeca);
+            }
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {

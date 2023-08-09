@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -56,18 +55,22 @@ public class Executavel {
 
         boolean sair = false;
         for (int i = 0; !sair; i++) {
-            if (i % 2 == 0) {
-                sair = logado.getCor().equals("Branco") ?
-                        joga(logado, tabuleiro, j2) : joga(j2, tabuleiro, logado);
-            } else {
-                sair = logado.getCor().equals("Branco") ?
-                        joga(j2, tabuleiro, logado) : joga(logado, tabuleiro, j2);
-            }
+
+                if (i % 2 == 0) {
+                    sair = logado.getCor().equals("Branco") ?
+                            joga(logado, tabuleiro, j2) : joga(j2, tabuleiro, logado);
+                } else {
+                    sair = logado.getCor().equals("Branco") ?
+                            joga(j2, tabuleiro, logado) : joga(logado, tabuleiro, j2);
+                }
         }
     }
 
     public static boolean joga(Jogador jogadorJogando, Tabuleiro tabuleiro, Jogador adversario) {
         System.out.println(tabuleiro);
+        if(validarFimDeJogo(tabuleiro, jogadorJogando, adversario)){
+            return true;
+        }
 
         int opcao;
         ArrayList<Posicao> possiveisPosicoes;
@@ -81,7 +84,8 @@ public class Executavel {
             if (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0) {
                 System.out.println("Valor invalido!");
             } else{
-                possiveisPosicoes = jogadorJogando.getPecas().get(opcao).possiveisMovimentos(tabuleiro);
+                possiveisPosicoes = jogadorJogando.getPecas().get(opcao).
+                        possiveisMovimentos(tabuleiro, jogadorJogando, adversario);
                 if(possiveisPosicoes.size() == 0){
                     System.out.println("Essa peça não pode fazer nenhum movimento!");
                     opcao = -1;
@@ -94,7 +98,7 @@ public class Executavel {
                 }
             }
         } while (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0);
-        return validarVitoria(adversario);
+        return false;
     }
 
     public static boolean escolherJogada(Tabuleiro tabuleiro, ArrayList<Posicao> posicoes,
@@ -122,24 +126,7 @@ public class Executavel {
     public static boolean verificarJogada(Jogador jogadorJogando, Peca peca, int opcao,
                                        Tabuleiro tabuleiro, Jogador adversario){
 
-        //Valores para a inversçao de jogada
-        int antigaPosicao = tabuleiro.getPosicoes().indexOf(peca.getPosicao());
-        Peca antigaPeca = null;
-        if(tabuleiro.getPosicoes().get(opcao).getPeca() != null){
-            antigaPeca = tabuleiro.getPosicoes().get(opcao).getPeca();
-        }
-
-        //Jogada
         jogadorJogando.moverPeca(peca, tabuleiro.getPosicoes().get(opcao), tabuleiro, adversario);
-
-        //Inversao de Jogada
-        if(tabuleiro.verificaCheque(adversario)){
-            jogadorJogando.moverPeca(peca, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, adversario);
-            tabuleiro.getPosicoes().get(opcao).setPeca(antigaPeca);
-            adversario.addPecas(antigaPeca);
-            System.out.println("Você não pode deixar seu rei em risco!");
-            return false;
-        } else{
             if(peca instanceof Peao){
                 if(peca.getCor().equals("Preto") && opcao > 55){
                     promoverPeao(tabuleiro.getPosicoes().get(opcao),tabuleiro, jogadorJogando);
@@ -149,7 +136,7 @@ public class Executavel {
                 }
             }
             return true;
-        }
+//        }
     }
 
 
@@ -228,14 +215,50 @@ public class Executavel {
         }
     }
 
-    public static boolean validarVitoria(Jogador adversario) {
-        for (Peca peca : adversario.getPecas()) {
-            if (peca instanceof Rei) {
-                return false;
+    public static boolean validarFimDeJogo(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario) {
+
+        for(Peca peca : jogador.getPecas()){
+            for(Posicao posicao : peca.possiveisMovimentos(tabuleiro, jogador, adversario)){
+                if(posicao.getPeca() != null && posicao.getPeca() instanceof Rei &&
+                    adversario.getPecas().contains(posicao.getPeca()) &&
+                        !verificaSeTemMov(tabuleiro, adversario, jogador)
+                ){
+                    System.out.println("Parabéns " + jogador.getNome() + "! Você venceu o jogo!");
+                    return true;
+                }
             }
         }
-        System.out.println("Fim de Jogo, " + adversario.getNome() + "Você infelizmente perdeu!");
-        return true;
+        for(Peca peca : adversario.getPecas()){
+            for(Posicao posicao : peca.possiveisMovimentos(tabuleiro, adversario, jogador)){
+                if(posicao.getPeca() != null && posicao.getPeca() instanceof Rei &&
+                        adversario.getPecas().contains(posicao.getPeca()) &&
+                        !verificaSeTemMov(tabuleiro, jogador, adversario)
+                ){
+                    System.out.println("Parabéns " + adversario.getNome() + "! Você venceu o jogo!");
+                    return true;
+                }
+            }
+        }
+        if(!verificaSeTemMov(tabuleiro, jogador, adversario)){
+            System.out.println("O Rei foi afogado! Declaro empate!");
+            return true;
+        }
+        if(jogador.getPecas().size() == 1 && adversario.getPecas().size() == 1){
+            System.out.println("Parece que sobram apenas os Reis, declaro empate!");
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean verificaSeTemMov(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario){
+
+        ArrayList<Posicao> possiveisPosicoes = new ArrayList<>();
+
+        for(Peca peca : jogador.getPecas()){
+            possiveisPosicoes.addAll(peca.possiveisMovimentos(tabuleiro, jogador, adversario));
+        }
+        return possiveisPosicoes.size() > 0;
     }
 
     public static void promoverPeao(Posicao posicao, Tabuleiro tabuleiro, Jogador jogador){
@@ -272,6 +295,5 @@ public class Executavel {
         jogador.getPecas().add(peca);
     }
 }
-//ver cheque mate
 //roque
 //en passant

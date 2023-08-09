@@ -20,36 +20,29 @@ public class Tabuleiro {
             if(i == 56 || i == 63){
                 posicoes.get(i).setPeca(new Torre("Branco", posicoes.get(i)));
             }
-            if(i == 1 || i == 6){
-                posicoes.get(i).setPeca(new Cavalo("Preto", posicoes.get(i)));
-            }
-            if(i == 57 || i == 62){
-                posicoes.get(i).setPeca(new Cavalo("Branco", posicoes.get(i)));
-            }
-            if(i == 2 || i == 5){
-                posicoes.get(i).setPeca(new Bispo("Preto", posicoes.get(i)));
-            }
-            if(i == 58 || i == 61){
-                posicoes.get(i).setPeca(new Bispo("Branco", posicoes.get(i)));
-            }
-            if(i == 3 ){
-                posicoes.get(i).setPeca(new Rainha("Preto", posicoes.get(i)));
-            }
-            if(i == 59 ){
-                posicoes.get(i).setPeca(new Rainha("Branco", posicoes.get(i)));
-            }
+//            if(i == 1 || i == 6){
+//                posicoes.get(i).setPeca(new Cavalo("Preto", posicoes.get(i)));
+//            }
+//            if(i == 57 || i == 62){
+//                posicoes.get(i).setPeca(new Cavalo("Branco", posicoes.get(i)));
+//            }
+//            if(i == 2 || i == 5){
+//                posicoes.get(i).setPeca(new Bispo("Preto", posicoes.get(i)));
+//            }
+//            if(i == 58 || i == 61){
+//                posicoes.get(i).setPeca(new Bispo("Branco", posicoes.get(i)));
+//            }
+//            if(i == 3 ){
+//                posicoes.get(i).setPeca(new Rainha("Preto", posicoes.get(i)));
+//            }
+//            if(i == 59 ){
+//                posicoes.get(i).setPeca(new Rainha("Branco", posicoes.get(i)));
+//            }
             if(i == 4 ){
                 posicoes.get(i).setPeca(new Rei("Preto", posicoes.get(i)));
             }
             if(i == 60 ){
                 posicoes.get(i).setPeca(new Rei("Branco", posicoes.get(i)));
-            }
-            //testes tira depois
-            if(i == 30){
-                posicoes.get(i).setPeca(new Rainha("Branco", posicoes.get(i)));
-            }
-            if(i == 20){
-                posicoes.get(i).setPeca(new Rainha("Branco", posicoes.get(i)));
             }
         }
     }
@@ -144,26 +137,5 @@ public class Tabuleiro {
             }
         }
         return retorno;
-    }
-
-    public boolean verificaCheque(Jogador jogador){
-
-        ArrayList<Posicao>  possiveisMovimentos = new ArrayList<>();
-        for(Posicao posicao : this.posicoes){
-            if(posicao.getPeca() != null){
-                possiveisMovimentos.addAll(posicao.getPeca().possiveisMovimentos(this));
-            }
-        }
-
-        for(Posicao posicao : possiveisMovimentos){
-            if(posicao.getPeca() instanceof Rei &&
-                !jogador.getPecas().contains(posicao.getPeca())
-            ){
-                System.out.println(true);
-                return true;
-            }
-        }
-
-        return false;
     }
 }

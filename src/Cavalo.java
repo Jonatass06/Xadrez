@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class Cavalo extends Peca {
@@ -8,7 +7,7 @@ public class Cavalo extends Peca {
     }
 
     @Override
-    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro) {
+    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario) {
         ArrayList<Posicao> possiveisMovimentos = new ArrayList<>();
 
         Posicao posicaoAtual = this.getPosicao();
@@ -32,7 +31,7 @@ public class Cavalo extends Peca {
                             indice == posicaoNoTabuleiro + 10 ||
                             indice == posicaoNoTabuleiro - 6 ||
                             indice == posicaoNoTabuleiro - 15)) {
-                        verificaPeca(posicao, possiveisMovimentos);
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario );
                     }
                 }
                 //A
@@ -42,26 +41,25 @@ public class Cavalo extends Peca {
                             indice == posicaoNoTabuleiro - 10 ||
                             indice == posicaoNoTabuleiro + 6 ||
                             indice == posicaoNoTabuleiro + 15)) {
-                        verificaPeca(posicao, possiveisMovimentos);
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario );
                     }
                 }
                 //B
                 else if (validaExtremidade(posicaoNoTabuleiro - 1)) {
                     if (!(indice == posicaoNoTabuleiro - 10 ||
                             indice == posicaoNoTabuleiro + 6)) {
-                        verificaPeca(posicao, possiveisMovimentos);
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario);
                     }
                 }
                 //G
                 else if (validaExtremidade(posicaoNoTabuleiro + 2)
                 ) {
-                    System.out.println(indice);
                     if (!(indice == posicaoNoTabuleiro + 10 ||
                             indice == posicaoNoTabuleiro - 6)) {
-                        verificaPeca(posicao, possiveisMovimentos);
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario );
                     }
                 } else {
-                    verificaPeca(posicao, possiveisMovimentos);
+                    verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro,adversario);
                 }
             }
         }

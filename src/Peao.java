@@ -20,9 +20,8 @@ public class Peao extends Peca {
                 this.primeiroMovimento = false;
                 return true;
     }
-
     @Override
-    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro) {
+    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario) {
 
         ArrayList<Posicao> possiveisMovimentos = new ArrayList<>();
         Posicao posicaoAtual = this.getPosicao();
@@ -31,12 +30,28 @@ public class Peao extends Peca {
 
         if (this.getCor().equals("Preto")) {
             if (posicoesTabuleiro.get(posicaoNoTabuleiro + 8).getPeca() == null) {
-                possiveisMovimentos.add(
-                        posicoesTabuleiro.get(posicaoNoTabuleiro + 8));
+                if(adversario != null){
+                    if(simularJogada(tabuleiro, jogador, adversario,
+                            posicoesTabuleiro.get(posicaoNoTabuleiro + 8))) {
+                        possiveisMovimentos.add(
+                                posicoesTabuleiro.get(posicaoNoTabuleiro + 8));
+                    }
+                } else {
+                    possiveisMovimentos.add(
+                            posicoesTabuleiro.get(posicaoNoTabuleiro + 8));
+                }
                 if (this.primeiroMovimento) {
                     if (posicoesTabuleiro.get(posicaoNoTabuleiro + 16).getPeca() == null) {
-                        possiveisMovimentos.add(
-                                posicoesTabuleiro.get(posicaoNoTabuleiro + 16));
+                        if(adversario != null){
+                            if(simularJogada(tabuleiro, jogador, adversario,
+                                    posicoesTabuleiro.get(posicaoNoTabuleiro + 16))){
+                                possiveisMovimentos.add(
+                                        posicoesTabuleiro.get(posicaoNoTabuleiro + 16));
+                            }
+                        } else{
+                            possiveisMovimentos.add(
+                                    posicoesTabuleiro.get(posicaoNoTabuleiro + 16));
+                        }
                     }
                 }
             }
@@ -44,9 +59,18 @@ public class Peao extends Peca {
             if(posicoesTabuleiro.get(posicaoNoTabuleiro + 9).getPeca() != null) {
                 if (posicoesTabuleiro.get(posicaoNoTabuleiro + 9)
                         .getPeca().getCor().equals("Branco") &&
-                        !validaExtremidade(posicaoNoTabuleiro + 1)) {
-                    possiveisMovimentos.add(
-                            posicoesTabuleiro.get(posicaoNoTabuleiro + 9));
+                        !validaExtremidade(posicaoNoTabuleiro + 1)
+                ) {
+                    if(adversario != null){
+                        if(simularJogada(tabuleiro, jogador, adversario,
+                                posicoesTabuleiro.get(posicaoNoTabuleiro + 9))){
+                            possiveisMovimentos.add(
+                                    posicoesTabuleiro.get(posicaoNoTabuleiro + 9));
+                        }
+                    }else{
+                        possiveisMovimentos.add(
+                                posicoesTabuleiro.get(posicaoNoTabuleiro + 9));
+                    }
                 }
             }
 
@@ -54,49 +78,87 @@ public class Peao extends Peca {
                     if (posicoesTabuleiro.get(posicaoNoTabuleiro + 7)
                             .getPeca().getCor().equals("Branco") &&
                             !validaExtremidade(posicaoNoTabuleiro)) {
-                        possiveisMovimentos.add(
-                                posicoesTabuleiro.get(posicaoNoTabuleiro + 7));
+                        if(adversario != null){
+                            if(simularJogada(tabuleiro, jogador, adversario,
+                                    posicoesTabuleiro.get(posicaoNoTabuleiro + 7))){
+                                possiveisMovimentos.add(
+                                        posicoesTabuleiro.get(posicaoNoTabuleiro + 7));
+                            }
+                        }else{
+                            possiveisMovimentos.add(
+                                    posicoesTabuleiro.get(posicaoNoTabuleiro + 7));
+                        }
                     }
                 }
         } else {
             if (posicoesTabuleiro.get(posicaoNoTabuleiro - 8).getPeca() == null) {
+            if(adversario != null){
+                if(simularJogada(tabuleiro, jogador, adversario,
+                        posicoesTabuleiro.get(posicaoNoTabuleiro - 8))) {
+                    possiveisMovimentos.add(
+                            posicoesTabuleiro.get(posicaoNoTabuleiro - 8));
+                }
+            } else {
                 possiveisMovimentos.add(
                         posicoesTabuleiro.get(posicaoNoTabuleiro - 8));
-                if (this.primeiroMovimento) {
-                    if (posicoesTabuleiro.get(posicaoNoTabuleiro - 16)
-                            .getPeca() == null) {
+            }
+
+            if (this.primeiroMovimento) {
+                if (posicoesTabuleiro.get(posicaoNoTabuleiro - 16).getPeca() == null) {
+                    if(adversario != null){
+                        if(simularJogada(tabuleiro, jogador, adversario,
+                                posicoesTabuleiro.get(posicaoNoTabuleiro - 16))){
+                            possiveisMovimentos.add(
+                                    posicoesTabuleiro.get(posicaoNoTabuleiro - 16));
+                        }
+                    } else{
                         possiveisMovimentos.add(
                                 posicoesTabuleiro.get(posicaoNoTabuleiro - 16));
                     }
                 }
             }
-            if(posicoesTabuleiro.get(posicaoNoTabuleiro - 9).getPeca() != null){
-                if (posicoesTabuleiro.get(posicaoNoTabuleiro - 9).getPeca().getCor().equals("Preto") &&
-                        !validaExtremidade(posicaoNoTabuleiro)) {
-                    possiveisMovimentos.add(
-                            posicoesTabuleiro.get(posicaoNoTabuleiro - 9));
-                }
-            }
-            if(posicoesTabuleiro.get(posicaoNoTabuleiro - 7)
-                    .getPeca() != null){
-                if (posicoesTabuleiro.get(posicaoNoTabuleiro - 7)
+        }
+
+            if(posicoesTabuleiro.get(posicaoNoTabuleiro - 9).getPeca() != null) {
+                if (posicoesTabuleiro.get(posicaoNoTabuleiro - 9)
                         .getPeca().getCor().equals("Preto") &&
-                        !validaExtremidade(posicaoNoTabuleiro + 1)) {
-                    possiveisMovimentos.add(
-                            posicoesTabuleiro.get(posicaoNoTabuleiro - 7));
+                        !validaExtremidade(posicaoNoTabuleiro + 1)
+                ) {
+                    if(adversario != null){
+                        if(simularJogada(tabuleiro, jogador, adversario,
+                                posicoesTabuleiro.get(posicaoNoTabuleiro - 9))){
+                            possiveisMovimentos.add(
+                                    posicoesTabuleiro.get(posicaoNoTabuleiro - 9));
+                        }
+                    }else{
+                        possiveisMovimentos.add(
+                                posicoesTabuleiro.get(posicaoNoTabuleiro - 9));
+                    }
                 }
             }
 
+            if(posicoesTabuleiro.get(posicaoNoTabuleiro - 7).getPeca() != null) {
+                if (posicoesTabuleiro.get(posicaoNoTabuleiro - 7)
+                        .getPeca().getCor().equals("Preto") &&
+                        !validaExtremidade(posicaoNoTabuleiro)) {
+                    if(adversario != null){
+                        if(simularJogada(tabuleiro, jogador, adversario,
+                                posicoesTabuleiro.get(posicaoNoTabuleiro - 7))){
+                            possiveisMovimentos.add(
+                                    posicoesTabuleiro.get(posicaoNoTabuleiro - 7));
+                        }
+                    }else{
+                        possiveisMovimentos.add(
+                                posicoesTabuleiro.get(posicaoNoTabuleiro - 7));
+                    }
+                }
+            }
         }
         return possiveisMovimentos;
     }
 
-    public boolean getPrimeiraJogada(){
-        return primeiroMovimento;
-    }
-
-    public void setPrimeiraJogada(){
-        primeiroMovimento = false;
+    public void setPrimeiroMovimento(boolean primeiroMovimento) {
+        this.primeiroMovimento = primeiroMovimento;
     }
 
     @Override
