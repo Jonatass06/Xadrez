@@ -72,6 +72,12 @@ public class Executavel {
             return true;
         }
 
+        for(Peca peca : jogadorJogando.getPecas()){
+            if(peca instanceof Peao && ((Peao) peca).getMov() == 1){
+                ((Peao) peca).incMov();
+            }
+        }
+
         int opcao;
         ArrayList<Posicao> possiveisPosicoes;
 
@@ -291,9 +297,10 @@ public class Executavel {
             default -> peca = new Cavalo(posicao.getPeca().getCor(), posicao);
         }
         posicao.setPeca(peca);
-        jogador.getPecas().remove(posicao.getPeca());
+        jogador.removerPeca(posicao.getPeca());
         jogador.getPecas().add(peca);
     }
 }
-//roque
-//en passant
+//  - adição dwum monte de pecas na lista do jogador com o enpasant
+//  - pecas sumindo (simular enpassant peca da frente)
+

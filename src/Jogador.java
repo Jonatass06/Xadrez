@@ -51,13 +51,8 @@ public class Jogador {
 
     public boolean moverPeca(Peca peca, Posicao posicao,
                              Tabuleiro tabuleiro, Jogador adversario) {
-        Peca pecaAdversaria = posicao.getPeca();
-        boolean valida = peca.mover(posicao, tabuleiro);
-
-        if (pecaAdversaria != null && valida) {
-            adversario.pecas.remove(pecaAdversaria);
-        }
-        return valida;
+        peca.mover(posicao, tabuleiro, adversario);
+        return true;
     }
 
     public void addPecas(Peca peca) {
@@ -73,6 +68,10 @@ public class Jogador {
     }
 
     public void desistir() {
+    }
+
+    public void removerPeca(Peca peca) {
+        this.pecas.remove(peca);
     }
 
     public void setCor(String cor, Tabuleiro tabuleiro) {

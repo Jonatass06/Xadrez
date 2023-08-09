@@ -15,7 +15,11 @@ public abstract class Peca {
         return icone;
     }
 
-    public boolean mover(Posicao posicao, Tabuleiro tabuleiro) {
+    public boolean mover(Posicao posicao, Tabuleiro tabuleiro, Jogador adversario) {
+
+                if (posicao.getPeca() != null) {
+                    adversario.removerPeca(posicao.getPeca());
+                }
                 //Atribuindo a peça para a nova posição no tabuleiro
                 posicao.setPeca(this);
                 //Removendo a peça da posição anterior
@@ -58,7 +62,7 @@ public abstract class Peca {
         return posicaoNoTabuleiro % 8 == 0;
     }
 
-    private boolean verificaCheque(Jogador jogador, Tabuleiro tabuleiro, Jogador adversario){
+    public boolean verificaCheque(Jogador jogador, Tabuleiro tabuleiro, Jogador adversario){
 
         for(Peca peca : adversario.getPecas()){
             if(peca != null){
@@ -82,42 +86,51 @@ public abstract class Peca {
         if(posicao.getPeca() != null){
             antigaPeca = posicao.getPeca();
         }
-
+        boolean retorno = true;
 
         if(antigaPeca == null || (antigaPeca != null && adversario.getPecas().contains(antigaPeca))){
-            //Jogada
+
+            boolean primMov = false;
+
+            //fazer o negocio do peao en passant
+            if(this != null) {
+                if(this instanceof Rei) {
+                    primMov = ((Rei) this).getPrimeiroMovimento();
+                }
+                if(this instanceof Torre) {
+                    primMov = ((Torre) this).getPrimeiroMovimento();
+                }
+            }
             jogador.moverPeca(this, posicao, tabuleiro, adversario);
 
-            //Inversao de Jogada
             if(verificaCheque(jogador, tabuleiro, adversario)){
-                jogador.moverPeca(this, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, adversario);
-                if(this instanceof Peao){
-                    ((Peao) this).setPrimeiroMovimento(true);
-                }
-                if(antigaPeca != null){
-                    posicao.setPeca(antigaPeca);
-                    adversario.addPecas(antigaPeca);
-                }
-                return false;
+                retorno = false;
             }
+            System.out.println(tabuleiro);
+            //Inverter jogada
             jogador.moverPeca(this, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, adversario);
-            if(this instanceof Peao){
-                ((Peao) this).setPrimeiroMovimento(true);
-            }
-            if(this instanceof Rei){
-                ((Rei) this).setPrimeiroMovimento(true);
-            }
-            if(this instanceof Torre){
-                ((Torre) this).setPrimeiroMovimento(true);
-            }
+            System.out.println(tabuleiro);
+            System.out.println("=====================================");
+
+            this.setPrimMov(primMov);
             if(antigaPeca != null){
                 posicao.setPeca(antigaPeca);
                 adversario.addPecas(antigaPeca);
             }
-            return true;
+            return retorno;
         }
         return false;
     }
+
+    private void setPrimMov(boolean primMov){
+        if(this instanceof Rei){
+            ((Rei) this).setPrimeiroMovimento(primMov);
+        }
+        if(this instanceof Torre){
+            ((Torre) this).setPrimeiroMovimento(primMov);
+        }
+    }
+
 
     @Override
     public String toString() {

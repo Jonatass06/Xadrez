@@ -1,4 +1,3 @@
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 public class Rei extends Peca {
@@ -53,7 +52,7 @@ public class Rei extends Peca {
         }
 
 
-        if(adversario != null){
+        if (adversario != null) {
             if (verificaRoque(tabuleiro, +1, +2, jogador, adversario, posicaoRei)) {
                 possiveisMovimentos.add(tabuleiro.getPosicoes().get(tabuleiro.getPosicoes()
                         .indexOf(this.getPosicao()) + 2));
@@ -69,16 +68,16 @@ public class Rei extends Peca {
     private boolean verificaRoque(Tabuleiro tabuleiro, int mod, int max,
                                   Jogador jogador, Jogador adversario, Posicao posicaoRei) {
 
-        if (tabuleiro.getPosicoes().get(
-                tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
-                .getPeca() != null &&
-                this.primeiroMovimento &&
-                tabuleiro.getPosicoes().get(
-                        tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
-                        .getPeca() instanceof Torre &&
-                ((Torre) tabuleiro.getPosicoes().get(
-                        tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
-                        .getPeca()).getPrimeiroMovimento()
+        if ( this.primeiroMovimento &&
+                        tabuleiro.getPosicoes().get(
+                                tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
+                                .getPeca() != null &&
+                        tabuleiro.getPosicoes().get(
+                                tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
+                                .getPeca() instanceof Torre &&
+                        ((Torre) tabuleiro.getPosicoes().get(
+                                tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
+                                .getPeca()).getPrimeiroMovimento()
         ) {
             for (int i = tabuleiro.getPosicoes().indexOf(posicaoRei) + mod;
                  i != tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod;
@@ -99,17 +98,20 @@ public class Rei extends Peca {
     }
 
     @Override
-    public boolean mover(Posicao posicao, Tabuleiro tabuleiro) {
+    public boolean mover(Posicao posicao, Tabuleiro tabuleiro, Jogador adversario) {
 
         //terminar
-        if(tabuleiro.getPosicoes().indexOf(posicao) == tabuleiro.getPosicoes().indexOf(this.getPosicao())-2){
-
+        if (tabuleiro.getPosicoes().indexOf(posicao) == tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 2) {
+            Peca peca = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 4).getPeca();
+            peca.mover(tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 1), tabuleiro, adversario);
         }
-        if(tabuleiro.getPosicoes().indexOf(posicao) == tabuleiro.getPosicoes().indexOf(this.getPosicao())+2){
-            Peca peca = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao())+3).getPeca();
-            peca.mover(tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao())+1), tabuleiro);
+        if (tabuleiro.getPosicoes().indexOf(posicao) == tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 2) {
+            Peca peca = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 3).getPeca();
+            peca.mover(tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 1), tabuleiro, adversario);
         }
-
+        if (posicao.getPeca() != null) {
+            adversario.removerPeca(posicao.getPeca());
+        }
         //Atribuindo a peça para a nova posição no tabuleiro
         posicao.setPeca(this);
         //Removendo a peça da posição anterior
@@ -118,6 +120,10 @@ public class Rei extends Peca {
         this.setPosicao(posicao);
         this.primeiroMovimento = false;
         return true;
+    }
+
+    public boolean getPrimeiroMovimento() {
+        return primeiroMovimento;
     }
 
     public void setPrimeiroMovimento(boolean primeiroMovimento) {
