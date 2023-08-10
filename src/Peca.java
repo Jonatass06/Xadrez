@@ -45,8 +45,9 @@ public abstract class Peca {
 
     public boolean verificaPeca (Posicao posicao, ArrayList<Posicao> possiveisMovimentos, Jogador jogador,
                                  Tabuleiro tabuleiro,  Jogador adversario){
-        if(adversario != null && !simularJogada(tabuleiro, jogador, adversario, posicao)){
-            return false;
+        if(adversario != null && !simularJogada(tabuleiro, jogador, adversario, posicao)) {
+
+            return posicao.getPeca()!=null;
         }
         if (posicao.getPeca() == null) {
             possiveisMovimentos.add(posicao);
@@ -55,7 +56,6 @@ public abstract class Peca {
             possiveisMovimentos.add(posicao);
         }
         return true;
-
     }
 
     public boolean validaExtremidade(int posicaoNoTabuleiro){

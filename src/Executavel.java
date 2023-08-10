@@ -1,3 +1,4 @@
+import javax.management.BadStringOperationException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -82,12 +83,14 @@ public class Executavel {
         ArrayList<Posicao> possiveisPosicoes;
 
         do {
-            System.out.println(tabuleiro.mostrarPecasJogador(jogadorJogando.getPecas()));
+            System.out.println(tabuleiro.mostrarPecasJogador(jogadorJogando, adversario));
             System.out.println("Qual peça você deseja usar: ");
-            System.out.println(jogadorJogando.mostrarPecas());
+            System.out.println(jogadorJogando.mostrarPecas(tabuleiro, adversario));
             opcao = sc.nextInt();
 
-            if (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0) {
+            if (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0 ||
+            jogadorJogando.getPecas().get(opcao)
+                    .possiveisMovimentos(tabuleiro, jogadorJogando, adversario).size() == 0) {
                 System.out.println("Valor invalido!");
             } else{
                 possiveisPosicoes = jogadorJogando.getPecas().get(opcao).
@@ -103,7 +106,9 @@ public class Executavel {
                     }
                 }
             }
-        } while (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0);
+        } while (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0 ||
+                jogadorJogando.getPecas().get(opcao)
+                        .possiveisMovimentos(tabuleiro, jogadorJogando, adversario).size() == 0);
         return false;
     }
 

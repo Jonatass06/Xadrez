@@ -130,19 +130,22 @@ public class Tabuleiro {
         return retorno + corPadrao;
     }
 
-    public String mostrarPecasJogador(ArrayList<Peca> pecas) {
+    public String mostrarPecasJogador(Jogador jogador, Jogador adversario) {
         String retorno ="";
         for(Posicao posicao : posicoes){
 
             if(posicao.getPeca() == null){
                 retorno += "[  ]";
             } else{
-                if(pecas.contains(posicao.getPeca())){
-                    if(pecas.indexOf(posicao.getPeca()) < 10){
-                        retorno += "[0"+pecas.indexOf(posicao.getPeca())+"]";
+                if(jogador.getPecas().contains(posicao.getPeca())){
+                    if (posicao.getPeca().possiveisMovimentos(this, jogador, adversario).size() == 0){
+                        retorno += "[ "+ posicao.getPeca().getIcone() +  "]";
                     } else{
-                        retorno += "["+pecas.indexOf(posicao.getPeca())+"]";
-
+                        if(jogador.getPecas().indexOf(posicao.getPeca()) < 10){
+                            retorno += "[0"+jogador.getPecas().indexOf(posicao.getPeca())+"]";
+                        } else{
+                            retorno += "["+jogador.getPecas().indexOf(posicao.getPeca())+"]";
+                        }
                     }
                 }else{
                     retorno += "[ "+ posicao.getPeca().getIcone() +  "]";

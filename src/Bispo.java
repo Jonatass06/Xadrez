@@ -14,22 +14,22 @@ public class Bispo extends Peca {
 
         int posicaoNoTabuleiro = tabuleiro.getPosicoes().indexOf(this.getPosicao());
 
-        umaDiagonal(7, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario);
-        umaDiagonal(-7, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario);
-        umaDiagonal(9, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario);
-        umaDiagonal(-9, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario);
+        umaDiagonal(7, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario, 0);
+        umaDiagonal(-7, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario, 1);
+        umaDiagonal(9, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario, 1);
+        umaDiagonal(-9, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario, 0);
 
         return possiveisMovimentos;
     }
 
     private void umaDiagonal(int soma, int posicaoNoTabuleiro, Tabuleiro tabuleiro,
-                             ArrayList<Posicao> possiveisMovimentos, Jogador jogador, Jogador adversario){
+                             ArrayList<Posicao> possiveisMovimentos, Jogador jogador, Jogador adversario, int modI){
         for (int i = (validaExtremidade(posicaoNoTabuleiro) ?
                 -1 : posicaoNoTabuleiro + soma);
              i >= 0 && i<=63;
              i += soma) {
             if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos, jogador, tabuleiro, adversario ) ||
-                    validaExtremidade(i)) {
+                    validaExtremidade(i+modI)) {
                 break;
             }
         }

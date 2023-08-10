@@ -26,21 +26,22 @@ public class Jogador {
         return null;
     }
 
-    public String mostrarPecas(){
+    public String mostrarPecas(Tabuleiro tabuleiro, Jogador adversario){
         String retorno = "";
         for(Peca peca : pecas){
-            if(pecas.indexOf(peca) < 10){
-                retorno += "[0"+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
-                if((pecas.indexOf(peca)+1)%3 == 0){
-                    retorno += "\n";
-                }
-            } else{
-                retorno += "["+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
-                if((pecas.indexOf(peca)+1)%3 == 0){
-                    retorno += "\n";
+            if(peca.possiveisMovimentos(tabuleiro, this, adversario).size() > 0){
+                if(pecas.indexOf(peca) < 10){
+                    retorno += "[0"+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
+                    if((pecas.indexOf(peca)+1)%3 == 0){
+                        retorno += "\n";
+                    }
+                } else{
+                    retorno += "["+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
+                    if((pecas.indexOf(peca)+1)%3 == 0){
+                        retorno += "\n";
+                    }
                 }
             }
-
         }
         return retorno;
     }
