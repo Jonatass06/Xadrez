@@ -106,16 +106,15 @@ public abstract class Peca {
             if(verificaCheque(jogador, tabuleiro, adversario)){
                 retorno = false;
             }
-            System.out.println(tabuleiro);
             //Inverter jogada
             jogador.moverPeca(this, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, adversario);
-            System.out.println(tabuleiro);
-            System.out.println("=====================================");
 
             this.setPrimMov(primMov);
             if(antigaPeca != null){
                 posicao.setPeca(antigaPeca);
-                adversario.addPecas(antigaPeca);
+                if(!adversario.getPecas().contains(antigaPeca)){
+                    adversario.addPecas(antigaPeca);
+                }
             }
             return retorno;
         }

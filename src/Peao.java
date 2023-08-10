@@ -25,13 +25,15 @@ public class Peao extends Peca {
         this.movimento++;
 
 
-        if (verficaEnPassant(antigaPeca, antigaPosicao, novaPosicao)) {
-            if (novaPosicao > antigaPosicao) {
-                adversario.removerPeca(tabuleiro.getPosicoes().get(novaPosicao - 8).getPeca());
-                tabuleiro.getPosicoes().get(novaPosicao - 8).setPeca(null);
-            } else {
-                adversario.removerPeca(tabuleiro.getPosicoes().get(novaPosicao + 8).getPeca());
-                tabuleiro.getPosicoes().get(novaPosicao + 8).setPeca(null);
+        if(adversario != null){
+            if (verficaEnPassant(antigaPeca, antigaPosicao, novaPosicao)) {
+                if (novaPosicao > antigaPosicao) {
+                    adversario.removerPeca(tabuleiro.getPosicoes().get(novaPosicao - 8).getPeca());
+                    tabuleiro.getPosicoes().get(novaPosicao - 8).setPeca(null);
+                } else {
+                    adversario.removerPeca(tabuleiro.getPosicoes().get(novaPosicao + 8).getPeca());
+                    tabuleiro.getPosicoes().get(novaPosicao + 8).setPeca(null);
+                }
             }
         }
         return true;
@@ -278,9 +280,6 @@ public class Peao extends Peca {
             if (verificaCheque(jogador, tabuleiro, adversario)) {
                 retorno = false;
             }
-            //Inverter jogada
-            jogador.moverPeca(this, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, adversario);
-            this.decMov();
 
             if (antigaPecaEnPassant != null) {
                 if (novaPosicao > antigaPosicao) {
@@ -288,12 +287,20 @@ public class Peao extends Peca {
                 } else {
                     tabuleiro.getPosicoes().get(novaPosicao + 8).setPeca(antigaPecaEnPassant);
                 }
-                tabuleiro.getPosicoes().get(novaPosicao - 8).setPeca(antigaPecaEnPassant);
-                adversario.addPecas(antigaPecaEnPassant);
+                if(!adversario.getPecas().contains(antigaPecaEnPassant)){
+                    adversario.addPecas(antigaPecaEnPassant);
+                }
             }
+
+            //Inverter jogada
+            jogador.moverPeca(this, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, null);
+            this.decMov();
+
             if (antigaPeca != null) {
                 posicao.setPeca(antigaPeca);
-                adversario.addPecas(antigaPeca);
+                if(!adversario.getPecas().contains(antigaPeca)){
+                    adversario.addPecas(antigaPeca);
+                }
             }
             return retorno;
         }

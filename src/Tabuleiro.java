@@ -8,12 +8,18 @@ public class Tabuleiro {
         for (int i = 0; i < 64; i++){
             posicoes.add(new Posicao());
 
-//            if(i >= 8 && i <= 15){
-//                posicoes.get(i).setPeca(new Peao("Preto", posicoes.get(i)));
-//            }
-//            if(i >= 48 && i <= 55){
-//                posicoes.get(i).setPeca(new Peao("Branco", posicoes.get(i)));
-//            }
+            if(i >= 8 && i <= 15){
+                posicoes.get(i).setPeca(new Peao("Preto", posicoes.get(i)));
+            }
+            if(i >= 48 && i <= 55){
+                posicoes.get(i).setPeca(new Peao("Branco", posicoes.get(i)));
+            }
+            if(i == 36){
+                posicoes.get(i).setPeca(new Peao("Preto", posicoes.get(i)));
+            }
+            if(i == 28){
+                posicoes.get(i).setPeca(new Peao("Branco", posicoes.get(i)));
+            }
             if(i == 0 || i == 7){
                 posicoes.get(i).setPeca(new Torre("Preto", posicoes.get(i)));
             }
@@ -43,16 +49,6 @@ public class Tabuleiro {
             }
             if(i == 60 ){
                 posicoes.get(i).setPeca(new Rei("Branco", posicoes.get(i)));
-            }
-
-            if(i==36){
-                posicoes.get(i).setPeca(new Peao("Preto", posicoes.get(i)));
-            }
-            if(i ==44){
-                posicoes.get(i).setPeca(new Torre("Branco", posicoes.get(i)));
-            }
-            if(i == 51){
-                posicoes.get(i).setPeca(new Peao("Branco", posicoes.get(i)));
             }
         }
     }

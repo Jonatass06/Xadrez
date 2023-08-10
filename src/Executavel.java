@@ -301,6 +301,5 @@ public class Executavel {
         jogador.getPecas().add(peca);
     }
 }
-//  - adição dwum monte de pecas na lista do jogador com o enpasant
-//  - pecas sumindo (simular enpassant peca da frente)
+//  - adição de um monte de pecas na lista do jogador com o enpasant
 
