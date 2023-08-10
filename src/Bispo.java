@@ -21,6 +21,7 @@ public class Bispo extends Peca {
 
         return possiveisMovimentos;
     }
+
     private void umaDiagonal(int soma, int posicaoNoTabuleiro, Tabuleiro tabuleiro,
                              ArrayList<Posicao> possiveisMovimentos, Jogador jogador, Jogador adversario){
         for (int i = (validaExtremidade(posicaoNoTabuleiro) ?

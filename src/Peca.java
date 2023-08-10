@@ -82,10 +82,8 @@ public abstract class Peca {
     public boolean simularJogada(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario, Posicao posicao ){
         //Valores para a inversçao de jogada
         int antigaPosicao = tabuleiro.getPosicoes().indexOf(this.getPosicao());
-        Peca antigaPeca = null;
-        if(posicao.getPeca() != null){
-            antigaPeca = posicao.getPeca();
-        }
+        Peca antigaPeca = posicao.getPeca();
+
         boolean retorno = true;
 
         if(antigaPeca == null || (antigaPeca != null && adversario.getPecas().contains(antigaPeca))){
@@ -101,6 +99,7 @@ public abstract class Peca {
                     primMov = ((Torre) this).getPrimeiroMovimento();
                 }
             }
+
             jogador.moverPeca(this, posicao, tabuleiro, adversario);
 
             if(verificaCheque(jogador, tabuleiro, adversario)){

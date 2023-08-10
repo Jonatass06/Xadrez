@@ -69,6 +69,7 @@ public class Rei extends Peca {
                                   Jogador jogador, Jogador adversario, Posicao posicaoRei) {
 
         if ( this.primeiroMovimento &&
+                !this.verificaCheque(jogador, tabuleiro, adversario) &&
                         tabuleiro.getPosicoes().get(
                                 tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
                                 .getPeca() != null &&

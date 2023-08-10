@@ -53,8 +53,6 @@ public class Tabuleiro {
         }
     }
 
-    public static void removerPeca(Posicao posicao){}
-
     public static ArrayList<Posicao> getPosicoes() {
         return posicoes;
     }
@@ -78,7 +76,10 @@ public class Tabuleiro {
         return retorno;
     }
 
-    public String mostrarPossiveisMovimentos(ArrayList<Posicao> possiveisMovimentos){
+    public String mostrarPossiveisMovimentos(Peca peca, Jogador jogador, Jogador adversario){
+
+
+        ArrayList<Posicao> possiveisMovimentos = peca.possiveisMovimentos(this, jogador, adversario);
 
         String corVermelha = "\u001B[31m";
         String corPadrao = "\u001B[0m";
@@ -88,16 +89,25 @@ public class Tabuleiro {
 
             if(posicao.getPeca() == null){
                 if(possiveisMovimentos.contains(posicao)){
-                    if(posicoes.indexOf(posicao) < 10){
-                        retorno += "[0"+posicoes.indexOf(posicao) +"]";
-                    } else{
-                        retorno += "["+posicoes.indexOf(posicao) +"]";
-                    }
+                    //EnPassant
+                        if(posicoes.indexOf(posicao) < 10){
+                            retorno += "[0"+posicoes.indexOf(posicao) +"]";
+                        } else{
+                            retorno += "["+posicoes.indexOf(posicao) +"]";
+                        }
                 }else{
                     retorno += "[  ]";
                 }
             } else{
-                if(possiveisMovimentos.contains(posicao)){
+                //EnPassant
+                if(posicao.getPeca() instanceof Peao &&
+                        ((Peao) posicao.getPeca()).getMov() == 1 &&
+                        (posicoes.indexOf(posicao) >=24 && posicoes.indexOf(posicao)<=39) &&
+                        (posicoes.indexOf(posicao) == posicoes.indexOf(peca.getPosicao())-1 ||
+                                posicoes.indexOf(posicao) == posicoes.indexOf(peca.getPosicao())+1)
+                ){
+                    retorno += "[ "+ corVermelha + posicao.getPeca().getIcone() + corPadrao + "]";
+                } else if(possiveisMovimentos.contains(posicao)){
                     retorno += "["+ corVermelha + posicoes.indexOf(posicao) + corPadrao + "]";
 
                 }else{

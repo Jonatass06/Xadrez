@@ -96,7 +96,7 @@ public class Executavel {
                     System.out.println("Essa peça não pode fazer nenhum movimento!");
                     opcao = -1;
                 }else{
-                    System.out.println(tabuleiro.mostrarPossiveisMovimentos(possiveisPosicoes));
+                    System.out.println(tabuleiro.mostrarPossiveisMovimentos(jogadorJogando.getPecas().get(opcao), jogadorJogando, adversario));
                     if(!escolherJogada(tabuleiro, possiveisPosicoes, jogadorJogando,
                             jogadorJogando.getPecas().get(opcao), adversario)){
                         opcao = -1;
@@ -144,7 +144,6 @@ public class Executavel {
             return true;
 //        }
     }
-
 
     public static boolean menuInicial() {
         int opcao;
@@ -301,5 +300,3 @@ public class Executavel {
         jogador.getPecas().add(peca);
     }
 }
-//  - adição de um monte de pecas na lista do jogador com o enpasant
-

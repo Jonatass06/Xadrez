@@ -323,11 +323,10 @@ public class Peao extends Peca {
     public void decMov() {
         this.movimento--;
     }
+
     public void incMov() {
         this.movimento++;
     }
-
-
 
     @Override
     public String toString() {
