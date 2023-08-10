@@ -68,7 +68,7 @@ public class Executavel {
     }
 
     public static boolean joga(Jogador jogadorJogando, Tabuleiro tabuleiro, Jogador adversario) {
-        System.out.println(tabuleiro);
+        System.out.println(tabuleiro.mostrarTabuleiro(jogadorJogando, adversario));
         if(validarFimDeJogo(tabuleiro, jogadorJogando, adversario)){
             return true;
         }
@@ -305,3 +305,6 @@ public class Executavel {
         jogador.getPecas().add(peca);
     }
 }
+
+//pecas sumindo
+//outros problemas

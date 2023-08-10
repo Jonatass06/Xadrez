@@ -52,6 +52,9 @@ public class Jogador {
 
     public boolean moverPeca(Peca peca, Posicao posicao,
                              Tabuleiro tabuleiro, Jogador adversario) {
+        if (posicao.getPeca() != null) {
+            adversario.removerPeca(posicao.getPeca());
+        }
         peca.mover(posicao, tabuleiro, adversario);
         return true;
     }

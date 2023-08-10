@@ -16,10 +16,6 @@ public abstract class Peca {
     }
 
     public boolean mover(Posicao posicao, Tabuleiro tabuleiro, Jogador adversario) {
-
-                if (posicao.getPeca() != null) {
-                    adversario.removerPeca(posicao.getPeca());
-                }
                 //Atribuindo a peça para a nova posição no tabuleiro
                 posicao.setPeca(this);
                 //Removendo a peça da posição anterior

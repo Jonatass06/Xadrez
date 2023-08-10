@@ -24,7 +24,6 @@ public class Peao extends Peca {
         this.setPosicao(posicao);
         this.movimento++;
 
-
         if(adversario != null){
             if (verficaEnPassant(antigaPeca, antigaPosicao, novaPosicao)) {
                 if (novaPosicao > antigaPosicao) {

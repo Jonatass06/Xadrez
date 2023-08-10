@@ -57,20 +57,25 @@ public class Tabuleiro {
         return posicoes;
     }
 
-    @Override
-    public String toString() {
+    public String mostrarTabuleiro(Jogador jogador, Jogador adversario) {
         String retorno ="";
+
+        String corVermelha = "\u001B[31m";
+        String corPadrao = "\u001B[0m";
         for(Posicao posicao : posicoes){
-
-            if(posicao.getPeca() != null){
-                retorno += "["+posicao.getPeca().getIcone() + "]";
+            if(posicao.getPeca()!=null && posicao.getPeca() instanceof Rei){
+                if(posicao.getPeca().verificaCheque(jogador, this, adversario)){
+                    retorno += " ["+corVermelha+posicao.getPeca().getIcone()+corPadrao + "]";
+                }
             }else{
-                retorno += "[ ]";
-            }
-
-            if((posicoes.indexOf(posicao)+1) % 8 == 0){
-
-                retorno +="\n";
+                if(posicao.getPeca() != null){
+                    retorno += "["+posicao.getPeca().getIcone()+ "]";
+                }else{
+                    retorno += "[ ]";
+                }
+                if((posicoes.indexOf(posicao)+1) % 8 == 0){
+                    retorno +="\n";
+                }
             }
         }
         return retorno;
@@ -115,7 +120,6 @@ public class Tabuleiro {
 
                 }
             }
-
             if((posicoes.indexOf(posicao)+1) % 8 == 0){
                 retorno +="\n";
             }
@@ -131,13 +135,18 @@ public class Tabuleiro {
     }
 
     public String mostrarPecasJogador(Jogador jogador, Jogador adversario) {
+
         String retorno ="";
         for(Posicao posicao : posicoes){
 
             if(posicao.getPeca() == null){
                 retorno += "[  ]";
             } else{
-                if(jogador.getPecas().contains(posicao.getPeca())){
+                if(posicao.getPeca()!=null && posicao.getPeca() instanceof Rei) {
+                    if (posicao.getPeca().verificaCheque(jogador, this, adversario)) {
+                        retorno += "[ " + posicao.getPeca().getIcone() + "]";
+                    }
+                }else if(jogador.getPecas().contains(posicao.getPeca())){
                     if (posicao.getPeca().possiveisMovimentos(this, jogador, adversario).size() == 0){
                         retorno += "[ "+ posicao.getPeca().getIcone() +  "]";
                     } else{
