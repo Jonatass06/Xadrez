@@ -305,6 +305,3 @@ public class Executavel {
         jogador.getPecas().add(peca);
     }
 }
-
-//pecas sumindo
-//outros problemas

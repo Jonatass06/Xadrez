@@ -27,19 +27,18 @@ public class Jogador {
     }
 
     public String mostrarPecas(Tabuleiro tabuleiro, Jogador adversario){
+        int count = 0;
         String retorno = "";
         for(Peca peca : pecas){
             if(peca.possiveisMovimentos(tabuleiro, this, adversario).size() > 0){
+                count++;
                 if(pecas.indexOf(peca) < 10){
                     retorno += "[0"+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
-                    if((pecas.indexOf(peca)+1)%3 == 0){
-                        retorno += "\n";
-                    }
                 } else{
                     retorno += "["+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
-                    if((pecas.indexOf(peca)+1)%3 == 0){
-                        retorno += "\n";
-                    }
+                }
+                if(count%3 == 0){
+                    retorno += "\n";
                 }
             }
         }
@@ -88,4 +87,3 @@ public class Jogador {
         }
     }
 }
-
