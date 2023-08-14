@@ -14,12 +14,6 @@ public class Tabuleiro {
             if(i >= 48 && i <= 55){
                 posicoes.get(i).setPeca(new Peao("Branco", posicoes.get(i)));
             }
-            if(i == 36){
-                posicoes.get(i).setPeca(new Peao("Preto", posicoes.get(i)));
-            }
-            if(i == 28){
-                posicoes.get(i).setPeca(new Peao("Branco", posicoes.get(i)));
-            }
             if (i == 0 || i == 7) {
                 posicoes.get(i).setPeca(new Torre("Preto", posicoes.get(i)));
             }
