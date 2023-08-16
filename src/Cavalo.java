@@ -7,7 +7,7 @@ public class Cavalo extends Peca {
     }
 
     @Override
-    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario) {
+    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario, boolean simular) {
         ArrayList<Posicao> possiveisMovimentos = new ArrayList<>();
 
         Posicao posicaoAtual = this.getPosicao();
@@ -31,7 +31,7 @@ public class Cavalo extends Peca {
                             indice == posicaoNoTabuleiro + 10 ||
                             indice == posicaoNoTabuleiro - 6 ||
                             indice == posicaoNoTabuleiro - 15)) {
-                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario );
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario, simular);
                     }
                 }
                 //A
@@ -41,14 +41,14 @@ public class Cavalo extends Peca {
                             indice == posicaoNoTabuleiro - 10 ||
                             indice == posicaoNoTabuleiro + 6 ||
                             indice == posicaoNoTabuleiro + 15)) {
-                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario );
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario, simular);
                     }
                 }
                 //B
                 else if (validaExtremidade(posicaoNoTabuleiro - 1)) {
                     if (!(indice == posicaoNoTabuleiro - 10 ||
                             indice == posicaoNoTabuleiro + 6)) {
-                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario);
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario, simular);
                     }
                 }
                 //G
@@ -56,10 +56,10 @@ public class Cavalo extends Peca {
                 ) {
                     if (!(indice == posicaoNoTabuleiro + 10 ||
                             indice == posicaoNoTabuleiro - 6)) {
-                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario );
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario, simular);
                     }
                 } else {
-                    verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro,adversario);
+                    verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro,adversario, simular);
                 }
             }
         }

@@ -24,7 +24,7 @@ public class Peao extends Peca {
         this.setPosicao(posicao);
         this.movimento++;
 
-        if(adversario != null){
+        if (adversario != null) {
             if (verficaEnPassant(antigaPeca, antigaPosicao, novaPosicao)) {
                 if (novaPosicao > antigaPosicao) {
                     adversario.removerPeca(tabuleiro.getPosicoes().get(novaPosicao - 8).getPeca());
@@ -39,216 +39,84 @@ public class Peao extends Peca {
     }
 
     @Override
-    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario) {
+    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario, boolean simular) {
 
         ArrayList<Posicao> possiveisMovimentos = new ArrayList<>();
         Posicao posicaoAtual = this.getPosicao();
-        ArrayList<Posicao> posicoesTabuleiro = tabuleiro.getPosicoes();
-        int posicaoNoTabuleiro = posicoesTabuleiro.indexOf(posicaoAtual);
+        int posicaoNoTabuleiro = tabuleiro.getPosicoes().indexOf(posicaoAtual);
 
         if (this.getCor().equals("Preto")) {
-            if (posicoesTabuleiro.get(posicaoNoTabuleiro + 8).getPeca() == null) {
-                if (adversario != null) {
-                    if (simularJogada(tabuleiro, jogador, adversario,
-                            posicoesTabuleiro.get(posicaoNoTabuleiro + 8))) {
-                        possiveisMovimentos.add(
-                                posicoesTabuleiro.get(posicaoNoTabuleiro + 8));
-                    }
-                } else {
-                    possiveisMovimentos.add(
-                            posicoesTabuleiro.get(posicaoNoTabuleiro + 8));
-                }
-                if (this.movimento == 0) {
-                    if (posicoesTabuleiro.get(posicaoNoTabuleiro + 16).getPeca() == null) {
-                        if (adversario != null) {
-                            if (simularJogada(tabuleiro, jogador, adversario,
-                                    posicoesTabuleiro.get(posicaoNoTabuleiro + 16))) {
-                                possiveisMovimentos.add(
-                                        posicoesTabuleiro.get(posicaoNoTabuleiro + 16));
-                            }
-                        } else {
-                            possiveisMovimentos.add(
-                                    posicoesTabuleiro.get(posicaoNoTabuleiro + 16));
-                        }
-                    }
-                }
-            }
-
-            if (posicoesTabuleiro.get(posicaoNoTabuleiro + 9).getPeca() != null) {
-                if (posicoesTabuleiro.get(posicaoNoTabuleiro + 9)
-                        .getPeca().getCor().equals("Branco") &&
-                        !validaExtremidade(posicaoNoTabuleiro + 1)
-                ) {
-                    if (adversario != null) {
-                        if (simularJogada(tabuleiro, jogador, adversario,
-                                posicoesTabuleiro.get(posicaoNoTabuleiro + 9))) {
-                            possiveisMovimentos.add(
-                                    posicoesTabuleiro.get(posicaoNoTabuleiro + 9));
-                        }
-                    } else {
-                        possiveisMovimentos.add(
-                                posicoesTabuleiro.get(posicaoNoTabuleiro + 9));
-                    }
-                }
-            }
-
-            if (posicoesTabuleiro.get(posicaoNoTabuleiro + 7).getPeca() != null) {
-                if (posicoesTabuleiro.get(posicaoNoTabuleiro + 7)
-                        .getPeca().getCor().equals("Branco") &&
-                        !validaExtremidade(posicaoNoTabuleiro)) {
-                    if (adversario != null) {
-                        if (simularJogada(tabuleiro, jogador, adversario,
-                                posicoesTabuleiro.get(posicaoNoTabuleiro + 7))) {
-                            possiveisMovimentos.add(
-                                    posicoesTabuleiro.get(posicaoNoTabuleiro + 7));
-                        }
-                    } else {
-                        possiveisMovimentos.add(
-                                posicoesTabuleiro.get(posicaoNoTabuleiro + 7));
-                    }
-                }
-            }
-            if (tabuleiro.getPosicoes().indexOf(this.getPosicao()) <= 39 &&
-                    tabuleiro.getPosicoes().indexOf(this.getPosicao()) >= 33) {
-                Posicao posicaoMaisUm = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 1);
-                Posicao posicaoMenosUm = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 1);
-
-                if (!validaExtremidade(posicaoNoTabuleiro + 1) &&
-                        posicaoMaisUm.getPeca() != null &&
-                        posicaoMaisUm.getPeca() instanceof Peao &&
-                        ((Peao) posicaoMaisUm.getPeca()).getMov() == 1) {
-                    if (adversario != null) {
-                        if (simularJogada(tabuleiro, jogador, adversario, tabuleiro.getPosicoes().
-                                get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 9))) {
-                            possiveisMovimentos.add(tabuleiro.getPosicoes().
-                                    get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 9));
-                        }
-                    } else {
-                        possiveisMovimentos.add(tabuleiro.getPosicoes().
-                                get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 9));
-                    }
-                }
-                if (!validaExtremidade(posicaoNoTabuleiro) &&
-                        posicaoMenosUm.getPeca() != null &&
-                        posicaoMenosUm.getPeca() instanceof Peao &&
-                        ((Peao) posicaoMenosUm.getPeca()).getMov() == 1) {
-                    if (adversario != null) {
-                        if (simularJogada(tabuleiro, jogador, adversario, tabuleiro.getPosicoes().
-                                get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 7))) {
-                            possiveisMovimentos.add(tabuleiro.getPosicoes().
-                                    get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 7));
-                        }
-                    } else {
-                        possiveisMovimentos.add(tabuleiro.getPosicoes().
-                                get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 7));
-                    }
-                }
-            }
+            andarPeao("Preto", 1, possiveisMovimentos, tabuleiro, posicaoNoTabuleiro, jogador, adversario, simular);
         } else {
-            if (posicoesTabuleiro.get(posicaoNoTabuleiro - 8).getPeca() == null) {
-                if (adversario != null) {
-                    if (simularJogada(tabuleiro, jogador, adversario,
-                            posicoesTabuleiro.get(posicaoNoTabuleiro - 8))) {
-                        possiveisMovimentos.add(
-                                posicoesTabuleiro.get(posicaoNoTabuleiro - 8));
-                    }
-                } else {
-                    possiveisMovimentos.add(
-                            posicoesTabuleiro.get(posicaoNoTabuleiro - 8));
-                }
+            andarPeao("Branco", -1, possiveisMovimentos, tabuleiro, posicaoNoTabuleiro, jogador, adversario, simular);
+        }
+        return possiveisMovimentos;
+    }
 
-                if (this.movimento == 0) {
-                    if (posicoesTabuleiro.get(posicaoNoTabuleiro - 16).getPeca() == null) {
-                        if (adversario != null) {
-                            if (simularJogada(tabuleiro, jogador, adversario,
-                                    posicoesTabuleiro.get(posicaoNoTabuleiro - 16))) {
-                                possiveisMovimentos.add(
-                                        posicoesTabuleiro.get(posicaoNoTabuleiro - 16));
-                            }
-                        } else {
-                            possiveisMovimentos.add(
-                                    posicoesTabuleiro.get(posicaoNoTabuleiro - 16));
-                        }
-                    }
-                }
+    private void andarPeao(String cor, int mod, ArrayList<Posicao> possiveisMovimentos, Tabuleiro tabuleiro,
+                           int posicaoNoTabuleiro, Jogador j1, Jogador j2, boolean simular) {
+
+        ArrayList<Posicao> posicoesTabuleiro = tabuleiro.getPosicoes();
+
+        if (posicoesTabuleiro.get(posicaoNoTabuleiro + (8 * mod)).getPeca() == null) {
+            if (!simular|| simularJogada(tabuleiro, j1, j2, posicoesTabuleiro.get(posicaoNoTabuleiro + (8 * mod)))) {
+                possiveisMovimentos.add(posicoesTabuleiro.get(posicaoNoTabuleiro + (8 * mod)));
             }
-
-            if (posicoesTabuleiro.get(posicaoNoTabuleiro - 9).getPeca() != null) {
-                if (posicoesTabuleiro.get(posicaoNoTabuleiro - 9)
-                        .getPeca().getCor().equals("Preto") &&
-                        !validaExtremidade(posicaoNoTabuleiro)
-                ) {
-                    if (adversario != null) {
-                        if (simularJogada(tabuleiro, jogador, adversario,
-                                posicoesTabuleiro.get(posicaoNoTabuleiro - 9))) {
-                            possiveisMovimentos.add(
-                                    posicoesTabuleiro.get(posicaoNoTabuleiro - 9));
-                        }
-                    } else {
-                        possiveisMovimentos.add(
-                                posicoesTabuleiro.get(posicaoNoTabuleiro - 9));
-                    }
-                }
-            }
-
-            if (posicoesTabuleiro.get(posicaoNoTabuleiro - 7).getPeca() != null) {
-                if (posicoesTabuleiro.get(posicaoNoTabuleiro - 7)
-                        .getPeca().getCor().equals("Preto") &&
-                        !validaExtremidade(posicaoNoTabuleiro + 1)) {
-                    if (adversario != null) {
-                        if (simularJogada(tabuleiro, jogador, adversario,
-                                posicoesTabuleiro.get(posicaoNoTabuleiro - 7))) {
-                            possiveisMovimentos.add(
-                                    posicoesTabuleiro.get(posicaoNoTabuleiro - 7));
-                        }
-                    } else {
-                        possiveisMovimentos.add(
-                                posicoesTabuleiro.get(posicaoNoTabuleiro - 7));
-                    }
-                }
-            }
-            if (tabuleiro.getPosicoes().indexOf(this.getPosicao()) <= 32 &&
-                    tabuleiro.getPosicoes().indexOf(this.getPosicao()) >= 24) {
-                Posicao posicaoMaisUm = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 1);
-                Posicao posicaoMenosUm = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 1);
-
-                if (!validaExtremidade(posicaoNoTabuleiro + 1) &&
-                        posicaoMaisUm.getPeca() != null &&
-                        posicaoMaisUm.getPeca() instanceof Peao &&
-                        ((Peao) posicaoMaisUm.getPeca()).getMov() == 1) {
-                    if (adversario != null) {
-                        if (simularJogada(
-                                tabuleiro, jogador, adversario, tabuleiro.getPosicoes().
-                                        get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 7)
-                        )) {
-
-                            possiveisMovimentos.add(tabuleiro.getPosicoes().
-                                    get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 7));
-                        }
-                    } else {
-                        possiveisMovimentos.add(tabuleiro.getPosicoes().
-                                get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 7));
-                    }
-                }
-                if (!validaExtremidade(posicaoNoTabuleiro) &&
-                        posicaoMenosUm.getPeca() != null &&
-                        posicaoMenosUm.getPeca() instanceof Peao &&
-                        ((Peao) posicaoMenosUm.getPeca()).getMov() == 1) {
-                    if (adversario != null) {
-                        if (simularJogada(
-                                tabuleiro, jogador, adversario, tabuleiro.getPosicoes().
-                                        get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 9)
-                        )) {
-                            possiveisMovimentos.add(tabuleiro.getPosicoes().
-                                    get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 9));
-                        }
-                    } else {possiveisMovimentos.add(tabuleiro.getPosicoes().
-                                get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 9));
+            if (this.movimento == 0) {
+                if (posicoesTabuleiro.get(posicaoNoTabuleiro + (16 * mod)).getPeca() == null) {
+                    if (!simular || simularJogada(tabuleiro, j1, j2, posicoesTabuleiro.get(posicaoNoTabuleiro + (16 * mod)))) {
+                        possiveisMovimentos.add(posicoesTabuleiro.get(posicaoNoTabuleiro + (16 * mod)));
                     }
                 }
             }
         }
-        return possiveisMovimentos;
+
+
+        if (posicoesTabuleiro.get(posicaoNoTabuleiro + (9 * mod)).getPeca() != null) {
+            if (!posicoesTabuleiro.get(posicaoNoTabuleiro + (9 * mod))
+                    .getPeca().getCor().equals(cor) &&
+                    !validaExtremidade(posicaoNoTabuleiro + (cor.equals("Preto") ? 1 : 0))
+            ) {
+                if (!simular || simularJogada(tabuleiro, j1, j2, posicoesTabuleiro.get(posicaoNoTabuleiro + (9 * mod)))) {
+                    possiveisMovimentos.add(posicoesTabuleiro.get(posicaoNoTabuleiro + (9 * mod)));
+                }
+            }
+        }
+
+        if (posicoesTabuleiro.get(posicaoNoTabuleiro + (7 * mod)).getPeca() != null) {
+            if (!posicoesTabuleiro.get(posicaoNoTabuleiro + (7 * mod))
+                    .getPeca().getCor().equals(cor) &&
+                    !validaExtremidade(posicaoNoTabuleiro + (cor.equals("Branco") ? 1 : 0))) {
+                if (!simular || simularJogada(tabuleiro, j1, j2, posicoesTabuleiro.get(posicaoNoTabuleiro + (7 * mod)))) {
+                    possiveisMovimentos.add(posicoesTabuleiro.get(posicaoNoTabuleiro + (7 * mod)));
+                }
+            }
+        }
+
+        //en passant
+        if (tabuleiro.getPosicoes().indexOf(this.getPosicao()) <= 39 &&
+                tabuleiro.getPosicoes().indexOf(this.getPosicao()) >= 24) {
+
+            Posicao posicaoMaisUm = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 1);
+            Posicao posicaoMenosUm = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 1);
+
+            if (!validaExtremidade(posicaoNoTabuleiro + 1) &&
+                    posicaoMaisUm.getPeca() instanceof Peao &&
+                    ((Peao) posicaoMaisUm.getPeca()).getMov() == 1) {
+                int indicePosicao = tabuleiro.getPosicoes().indexOf(this.getPosicao()) + (cor.equals("Branco") ? -7 : 9);
+                if (!simular || simularJogada(tabuleiro, j1, j2, tabuleiro.getPosicoes().get(indicePosicao))) {
+                    possiveisMovimentos.add(tabuleiro.getPosicoes().get(indicePosicao));
+                }
+            }
+            if (!validaExtremidade(posicaoNoTabuleiro) &&
+                    posicaoMenosUm.getPeca() instanceof Peao &&
+                    ((Peao) posicaoMenosUm.getPeca()).getMov() == 1) {
+                int indicePosicao = tabuleiro.getPosicoes().indexOf(this.getPosicao()) + (cor.equals("Branco") ? -9 : 7);
+                if (!simular || simularJogada(tabuleiro, j1, j2, tabuleiro.getPosicoes().get(indicePosicao))) {
+                    possiveisMovimentos.add(tabuleiro.getPosicoes(). get(indicePosicao));
+                }
+            }
+        }
     }
 
     @Override
@@ -261,7 +129,7 @@ public class Peao extends Peca {
 
         boolean retorno = true;
 
-        if (antigaPeca == null || (antigaPeca != null && adversario.getPecas().contains(antigaPeca))) {
+        if (antigaPeca == null || adversario.getPecas().contains(antigaPeca)) {
 
             Peca antigaPecaEnPassant = null;
 
@@ -286,7 +154,7 @@ public class Peao extends Peca {
                 } else {
                     tabuleiro.getPosicoes().get(novaPosicao + 8).setPeca(antigaPecaEnPassant);
                 }
-                if(!adversario.getPecas().contains(antigaPecaEnPassant)){
+                if (!adversario.getPecas().contains(antigaPecaEnPassant)) {
                     adversario.addPecas(antigaPecaEnPassant);
                 }
             }
@@ -295,12 +163,12 @@ public class Peao extends Peca {
             jogador.moverPeca(this, tabuleiro.getPosicoes().get(antigaPosicao), tabuleiro, null);
             this.decMov();
 
-            if (antigaPeca != null) {
-                posicao.setPeca(antigaPeca);
-                if(!adversario.getPecas().contains(antigaPeca)){
-                    adversario.addPecas(antigaPeca);
-                }
+
+            posicao.setPeca(antigaPeca);
+            if (antigaPeca != null && !adversario.getPecas().contains(antigaPeca)) {
+                adversario.addPecas(antigaPeca);
             }
+
             return retorno;
         }
         return false;

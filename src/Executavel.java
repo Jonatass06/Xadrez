@@ -1,4 +1,3 @@
-import javax.management.BadStringOperationException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -9,6 +8,7 @@ public class Executavel {
     static Jogador logado = null;
 
     public static void main(String[] args) {
+
         boolean finalizar = true;
         while (finalizar) {
             if (logado == null) {
@@ -90,11 +90,11 @@ public class Executavel {
 
             if (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0 ||
             jogadorJogando.getPecas().get(opcao)
-                    .possiveisMovimentos(tabuleiro, jogadorJogando, adversario).size() == 0) {
+                    .possiveisMovimentos(tabuleiro, jogadorJogando, adversario, true).size() == 0) {
                 System.out.println("Valor invalido!");
             } else{
                 possiveisPosicoes = jogadorJogando.getPecas().get(opcao).
-                        possiveisMovimentos(tabuleiro, jogadorJogando, adversario);
+                        possiveisMovimentos(tabuleiro, jogadorJogando, adversario, true);
                 if(possiveisPosicoes.size() == 0){
                     System.out.println("Essa peça não pode fazer nenhum movimento!");
                     opcao = -1;
@@ -108,7 +108,7 @@ public class Executavel {
             }
         } while (opcao > jogadorJogando.getPecas().size() - 1 || opcao < 0 ||
                 jogadorJogando.getPecas().get(opcao)
-                        .possiveisMovimentos(tabuleiro, jogadorJogando, adversario).size() == 0);
+                        .possiveisMovimentos(tabuleiro, jogadorJogando, adversario, true).size() == 0);
         return false;
     }
 
@@ -228,7 +228,7 @@ public class Executavel {
     public static boolean validarFimDeJogo(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario) {
 
         for(Peca peca : jogador.getPecas()){
-            for(Posicao posicao : peca.possiveisMovimentos(tabuleiro, jogador, adversario)){
+            for(Posicao posicao : peca.possiveisMovimentos(tabuleiro, jogador, adversario, true)){
                 if(posicao.getPeca() != null && posicao.getPeca() instanceof Rei &&
                     adversario.getPecas().contains(posicao.getPeca()) &&
                         !verificaSeTemMov(tabuleiro, adversario, jogador)
@@ -239,7 +239,7 @@ public class Executavel {
             }
         }
         for(Peca peca : adversario.getPecas()){
-            for(Posicao posicao : peca.possiveisMovimentos(tabuleiro, adversario, jogador)){
+            for(Posicao posicao : peca.possiveisMovimentos(tabuleiro, adversario, jogador, true)){
                 if(posicao.getPeca() != null && posicao.getPeca() instanceof Rei &&
                         adversario.getPecas().contains(posicao.getPeca()) &&
                         !verificaSeTemMov(tabuleiro, jogador, adversario)
@@ -266,7 +266,7 @@ public class Executavel {
         ArrayList<Posicao> possiveisPosicoes = new ArrayList<>();
 
         for(Peca peca : jogador.getPecas()){
-            possiveisPosicoes.addAll(peca.possiveisMovimentos(tabuleiro, jogador, adversario));
+            possiveisPosicoes.addAll(peca.possiveisMovimentos(tabuleiro, jogador, adversario, true));
         }
         return possiveisPosicoes.size() > 0;
     }
@@ -305,3 +305,5 @@ public class Executavel {
         jogador.getPecas().add(peca);
     }
 }
+
+//Problemas, o controlador do jogo deixou as pecas pretas jogarem duas vezes (0 -> 23 EE 2 -> 40)

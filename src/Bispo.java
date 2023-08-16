@@ -8,27 +8,27 @@ public class Bispo extends Peca {
 
     @Override
     public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador,
-                                                  Jogador adversario) {
+                                                  Jogador adversario, boolean simular) {
 
         ArrayList<Posicao> possiveisMovimentos = new ArrayList<>();
 
         int posicaoNoTabuleiro = tabuleiro.getPosicoes().indexOf(this.getPosicao());
 
-        umaDiagonal(7, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario, 0);
-        umaDiagonal(-7, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario, 1);
-        umaDiagonal(9, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario, 1);
-        umaDiagonal(-9, posicaoNoTabuleiro, tabuleiro, possiveisMovimentos, jogador, adversario, 0);
+        umaDiagonal(7, posicaoNoTabuleiro, tabuleiro, simular, possiveisMovimentos, jogador, adversario, 0);
+        umaDiagonal(-7, posicaoNoTabuleiro, tabuleiro, simular, possiveisMovimentos, jogador, adversario, 1);
+        umaDiagonal(9, posicaoNoTabuleiro, tabuleiro, simular, possiveisMovimentos, jogador, adversario, 1);
+        umaDiagonal(-9, posicaoNoTabuleiro, tabuleiro, simular, possiveisMovimentos, jogador, adversario, 0);
 
         return possiveisMovimentos;
     }
 
-    private void umaDiagonal(int soma, int posicaoNoTabuleiro, Tabuleiro tabuleiro,
+    private void umaDiagonal(int soma, int posicaoNoTabuleiro, Tabuleiro tabuleiro, boolean simular,
                              ArrayList<Posicao> possiveisMovimentos, Jogador jogador, Jogador adversario, int modI){
         for (int i = (validaExtremidade(posicaoNoTabuleiro) ?
                 -1 : posicaoNoTabuleiro + soma);
              i >= 0 && i<=63;
              i += soma) {
-            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos, jogador, tabuleiro, adversario ) ||
+            if (verificaPeca(tabuleiro.getPosicoes().get(i), possiveisMovimentos, jogador, tabuleiro, adversario, simular) ||
                     validaExtremidade(i+modI)) {
                 break;
             }

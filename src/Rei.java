@@ -10,7 +10,7 @@ public class Rei extends Peca {
     }
 
     @Override
-    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario) {
+    public ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario, boolean simular) {
 
         Posicao posicaoAtual = this.getPosicao();
         ArrayList<Posicao> possiveisMovimentos = new ArrayList<>();
@@ -30,17 +30,17 @@ public class Rei extends Peca {
                     if (!(indice == posicaoNoTabuleiro + 1 ||
                             indice == posicaoNoTabuleiro + 9 ||
                             indice == posicaoNoTabuleiro - 7)) {
-                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario);
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario, simular);
 
                     }
                 } else if (validaExtremidade(posicaoNoTabuleiro)) {
                     if (!(indice == posicaoNoTabuleiro - 1 ||
                             indice == posicaoNoTabuleiro - 9 ||
                             indice == posicaoNoTabuleiro + 7)) {
-                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario);
+                        verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario, simular);
                     }
                 } else {
-                    verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario);
+                    verificaPeca(posicao, possiveisMovimentos, jogador, tabuleiro, adversario, simular);
                 }
             }
         }
@@ -52,7 +52,7 @@ public class Rei extends Peca {
         }
 
 
-        if (adversario != null) {
+        if (simular) {
             if (verificaRoque(tabuleiro, +1, +2, jogador, adversario, posicaoRei)) {
                 possiveisMovimentos.add(tabuleiro.getPosicoes().get(tabuleiro.getPosicoes()
                         .indexOf(this.getPosicao()) + 2));
@@ -68,27 +68,26 @@ public class Rei extends Peca {
     private boolean verificaRoque(Tabuleiro tabuleiro, int mod, int max,
                                   Jogador jogador, Jogador adversario, Posicao posicaoRei) {
 
-        if ( this.primeiroMovimento &&
+
+        ArrayList<Posicao> posicoes = tabuleiro.getPosicoes();
+
+
+        Peca peca = this.primeiroMovimento ? posicoes.get(posicoes.indexOf(posicaoRei) + max + mod).getPeca():null;
+
+        if (this.primeiroMovimento &&
                 !this.verificaCheque(jogador, tabuleiro, adversario) &&
-                        tabuleiro.getPosicoes().get(
-                                tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
-                                .getPeca() != null &&
-                        tabuleiro.getPosicoes().get(
-                                tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
-                                .getPeca() instanceof Torre &&
-                        ((Torre) tabuleiro.getPosicoes().get(
-                                tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod)
-                                .getPeca()).getPrimeiroMovimento()
+                peca != null && peca instanceof Torre &&
+                ((Torre)peca).getPrimeiroMovimento()
         ) {
-            for (int i = tabuleiro.getPosicoes().indexOf(posicaoRei) + mod;
-                 i != tabuleiro.getPosicoes().indexOf(posicaoRei) + max + mod;
+            for (int i = posicoes.indexOf(posicaoRei) + mod;
+                 i != posicoes.indexOf(posicaoRei) + max + mod;
                  i += mod) {
 
-                if (tabuleiro.getPosicoes().get(i).getPeca() != null) {
+                if (posicoes.get(i).getPeca() != null) {
                     return false;
                 }
-                for (Peca peca : adversario.getPecas()) {
-                    if (peca.possiveisMovimentos(tabuleiro, jogador, null).contains(tabuleiro.getPosicoes().get(i))) {
+                for (Peca pecaFor : adversario.getPecas()) {
+                    if (pecaFor.possiveisMovimentos(tabuleiro, jogador, adversario, false).contains(posicoes.get(i))) {
                         return false;
                     }
                 }
@@ -101,11 +100,13 @@ public class Rei extends Peca {
     @Override
     public boolean mover(Posicao posicao, Tabuleiro tabuleiro, Jogador adversario) {
 
-        //terminar
+        //VERIFICAR
+        //roque grande
         if (tabuleiro.getPosicoes().indexOf(posicao) == tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 2) {
             Peca peca = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 4).getPeca();
             peca.mover(tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) - 1), tabuleiro, adversario);
         }
+        //roque pequeno
         if (tabuleiro.getPosicoes().indexOf(posicao) == tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 2) {
             Peca peca = tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 3).getPeca();
             peca.mover(tabuleiro.getPosicoes().get(tabuleiro.getPosicoes().indexOf(this.getPosicao()) + 1), tabuleiro, adversario);
@@ -113,6 +114,7 @@ public class Rei extends Peca {
         if (posicao.getPeca() != null) {
             adversario.removerPeca(posicao.getPeca());
         }
+
         //Atribuindo a peça para a nova posição no tabuleiro
         posicao.setPeca(this);
         //Removendo a peça da posição anterior

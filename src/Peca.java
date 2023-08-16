@@ -37,12 +37,11 @@ public abstract class Peca {
         return cor;
     }
 
-    public abstract ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario);
+    public abstract ArrayList<Posicao> possiveisMovimentos(Tabuleiro tabuleiro, Jogador jogador, Jogador adversario, boolean simular);
 
     public boolean verificaPeca (Posicao posicao, ArrayList<Posicao> possiveisMovimentos, Jogador jogador,
-                                 Tabuleiro tabuleiro,  Jogador adversario){
-        if(adversario != null && !simularJogada(tabuleiro, jogador, adversario, posicao)) {
-
+                                 Tabuleiro tabuleiro,  Jogador adversario, boolean simular){
+        if(simular && !simularJogada(tabuleiro, jogador, adversario, posicao)) {
             return posicao.getPeca()!=null;
         }
         if (posicao.getPeca() == null) {
@@ -62,7 +61,7 @@ public abstract class Peca {
 
         for(Peca peca : adversario.getPecas()){
             if(peca != null){
-                for(Posicao posicaoPossivel :  peca.possiveisMovimentos(tabuleiro, jogador, null)){
+                for(Posicao posicaoPossivel :  peca.possiveisMovimentos(tabuleiro, jogador, adversario, false)){
                     if(posicaoPossivel.getPeca() != null &&
                             posicaoPossivel.getPeca() instanceof Rei &&
                             jogador.getPecas().contains(posicaoPossivel.getPeca())){

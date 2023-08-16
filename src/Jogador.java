@@ -30,7 +30,7 @@ public class Jogador {
         int count = 0;
         String retorno = "";
         for(Peca peca : pecas){
-            if(peca.possiveisMovimentos(tabuleiro, this, adversario).size() > 0){
+            if(peca.possiveisMovimentos(tabuleiro, this, adversario, true).size() > 0){
                 count++;
                 if(pecas.indexOf(peca) < 10){
                     retorno += "[0"+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
