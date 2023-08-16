@@ -26,18 +26,18 @@ public class Jogador {
         return null;
     }
 
-    public String mostrarPecas(Tabuleiro tabuleiro, Jogador adversario){
+    public String mostrarPecas(Tabuleiro tabuleiro, Jogador adversario) {
         int count = 0;
         String retorno = "";
-        for(Peca peca : pecas){
-            if(peca.possiveisMovimentos(tabuleiro, this, adversario, true).size() > 0){
+        for (Peca peca : pecas) {
+            if (peca.possiveisMovimentos(tabuleiro, this, adversario, true).size() > 0) {
                 count++;
-                if(pecas.indexOf(peca) < 10){
-                    retorno += "[0"+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
-                } else{
-                    retorno += "["+pecas.indexOf(peca)+"] - " + peca.getIcone() + "  |  ";
+                if (pecas.indexOf(peca) < 10) {
+                    retorno += "[0" + pecas.indexOf(peca) + "] - " + peca.getIcone() + "  |  ";
+                } else {
+                    retorno += "[" + pecas.indexOf(peca) + "] - " + peca.getIcone() + "  |  ";
                 }
-                if(count%3 == 0){
+                if (count % 3 == 0) {
                     retorno += "\n";
                 }
             }
@@ -62,8 +62,19 @@ public class Jogador {
         this.pecas.add(peca);
     }
 
+    public ArrayList<Peca> getPecasComMov(Tabuleiro tabuleiro, Jogador adversario) {
+        ArrayList<Peca> pecasComMov = new ArrayList<>();
+        for (Peca peca : pecas) {
+            if (peca.possiveisMovimentos(tabuleiro, this, adversario, true).size() > 0) {
+                pecasComMov.add(peca);
+            }
+        }
+        return pecasComMov;
+    }
+
     public ArrayList<Peca> getPecas() {
-        return pecas;
+
+        return this.pecas;
     }
 
     public boolean proporEmpate(Jogador oponente) {

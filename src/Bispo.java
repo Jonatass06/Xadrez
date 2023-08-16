@@ -24,7 +24,7 @@ public class Bispo extends Peca {
 
     private void umaDiagonal(int soma, int posicaoNoTabuleiro, Tabuleiro tabuleiro, boolean simular,
                              ArrayList<Posicao> possiveisMovimentos, Jogador jogador, Jogador adversario, int modI){
-        for (int i = (validaExtremidade(posicaoNoTabuleiro) ?
+        for (int i = (validaExtremidade(posicaoNoTabuleiro+modI) ?
                 -1 : posicaoNoTabuleiro + soma);
              i >= 0 && i<=63;
              i += soma) {
